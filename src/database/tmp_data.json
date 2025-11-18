@@ -1,0 +1,287 @@
+{
+  "festival": {
+    "1": {
+      "id": 1,
+      "name": "PolyFestival 2025",
+      "nbtables": 150,
+      "creationDate": "2025-06-15",
+      "description": "Annual board game and tabletop gaming festival",
+      "startDate": "2025-11-22",
+      "endDate": "2025-11-24"
+    },
+    "2": {
+      "id": 2,
+      "name": "PolyFestival 2026",
+      "nbtables": 200,
+      "creationDate": "2026-03-10",
+      "description": "Annual board game and tabletop gaming festival",
+      "startDate": "2025-07-15",
+      "endDate": "2025-07-17"
+    }
+  },
+  "tariffZone": {
+    "1": {
+      "id": 1,
+      "name": "Zone Premium",
+      "nbtables": 50,
+      "availableTables": 45,
+      "tablePrice": 500,
+      "pricem2": 100,
+      "festivalid": 1
+    },
+    "2": {
+      "id": 2,
+      "name": "Zone Standard",
+      "nbtables": 80,
+      "availableTables": 60,
+      "tablePrice": 300,
+      "pricem2": 60,
+      "festivalid": 1
+    },
+    "3": {
+      "id": 3,
+      "name": "Zone Economy",
+      "nbtables": 20,
+      "availableTables": 15,
+      "tablePrice": 150,
+      "pricem2": 30,
+      "festivalid": 1
+    },
+    "4": {
+      "id": 4,
+      "name": "Zone A",
+      "nbtables": 100,
+      "availableTables": 80,
+      "tablePrice": 400,
+      "pricem2": 80,
+      "festivalid": 2
+    }
+  },
+  "table": {
+    "1": {
+      "id": 1,
+      "provenance": "France",
+      "taille": "2x1m",
+      "zonetariffid": 1
+    },
+    "2": {
+      "id": 2,
+      "provenance": "France",
+      "taille": "2x1m",
+      "zonetariffid": 1
+    },
+    "3": {
+      "id": 3,
+      "provenance": "Belgium",
+      "taille": "2x1.5m",
+      "zonetariffid": 2
+    },
+    "4": {
+      "id": 4,
+      "provenance": "France",
+      "taille": "1.5x1m",
+      "zonetariffid": 3
+    }
+  },
+  "planZone": {
+    "1": {
+      "id": 1,
+      "name": "Hall A - Premium Section",
+      "description": "Main exhibition hall with premium visibility",
+      "tableCount": 50,
+      "festivalid": 1,
+      "TariffZoneid": 1
+    },
+    "2": {
+      "id": 2,
+      "name": "Hall B - Standard Section",
+      "description": "Secondary hall for standard exhibitors",
+      "tableCount": 80,
+      "festivalid": 1,
+      "TariffZoneid": 2
+    },
+    "3": {
+      "id": 3,
+      "name": "Hall C - Economy Section",
+      "description": "Small hall for budget-conscious exhibitors",
+      "tableCount": 20,
+      "festivalid": 1,
+      "TariffZoneid": 3
+    }
+  },
+  "editor": {
+    "1": {
+      "id": 1,
+      "name": "Ludix Games",
+      "billingaddress": "123 Rue du Jeu, 75001 Paris, France"
+    },
+    "2": {
+      "id": 2,
+      "name": "Tabletop Revolution",
+      "billingaddress": "456 Avenue des Loisirs, 1000 Brussels, Belgium"
+    },
+    "3": {
+      "id": 3,
+      "name": "indie Game Studio",
+      "billingaddress": "789 Game Street, 69000 Lyon, France"
+    }
+  },
+  "contact": {
+    "1": {
+      "id": 1,
+      "firstName": "Jean",
+      "lastName": "Dupont",
+      "email": "jean.dupont@ludix.com",
+      "phone": "+33612345678",
+      "role": "Manager",
+      "isPrimary": true,
+      "editorid": 1
+    },
+    "2": {
+      "id": 2,
+      "firstName": "Marie",
+      "lastName": "Martin",
+      "email": "marie.martin@ludix.com",
+      "phone": "+33687654321",
+      "role": "Sales",
+      "isPrimary": false,
+      "editorid": 1
+    },
+    "3": {
+      "id": 3,
+      "firstName": "Tom",
+      "lastName": "Van der Berg",
+      "email": "tom@tablerevolution.be",
+      "phone": "+32234567890",
+      "role": "Owner",
+      "isPrimary": true,
+      "editorid": 2
+    }
+  },
+  "game": {
+    "1": {
+      "id": 1,
+      "name": "Heroes of Aletia",
+      "author": "Ludix Games",
+      "Agemin": 8,
+      "Agemax": 99,
+      "type": "RPG",
+      "description": "A fantasy RPG with strategic board game elements",
+      "EditorID": 1
+    },
+    "2": {
+      "id": 2,
+      "name": "Dice Empire",
+      "author": "Ludix Games",
+      "Agemin": 12,
+      "Agemax": 99,
+      "type": "Strategy",
+      "description": "Build your empire using dice mechanics",
+      "EditorID": 1
+    },
+    "3": {
+      "id": 3,
+      "name": "Card Wars",
+      "author": "Tabletop Revolution",
+      "Agemin": 6,
+      "Agemax": 99,
+      "type": "Card Game",
+      "description": "Fast-paced card game for all ages",
+      "EditorID": 2
+    }
+  },
+  "reservation": {
+    "1": {
+      "id": 1,
+      "nbtables": 3,
+      "totalPrice": 1500,
+      "discountTables": 0,
+      "discountAmount": 0,
+      "finalPrice": 1500,
+      "creationDate": "2025-09-01",
+      "state": "CONFIRMED",
+      "contactDates": ["2025-09-05", "2025-09-12"],
+      "willPresentOwnGames": true,
+      "editorid": 1,
+      "festivalid": 1,
+      "tarifzoneid": 1
+    },
+    "2": {
+      "id": 2,
+      "nbtables": 2,
+      "totalPrice": 600,
+      "discountTables": 1,
+      "discountAmount": 100,
+      "finalPrice": 500,
+      "creationDate": "2025-08-20",
+      "state": "INVOICED",
+      "contactDates": ["2025-08-25", "2025-09-01"],
+      "willPresentOwnGames": false,
+      "editorid": 2,
+      "festivalid": 1,
+      "tarifzoneid": 2
+    },
+    "3": {
+      "id": 3,
+      "nbtables": 1,
+      "totalPrice": 150,
+      "discountTables": 0,
+      "discountAmount": 0,
+      "finalPrice": 150,
+      "creationDate": "2025-10-01",
+      "state": "NOT_CONTACTED",
+      "contactDates": [],
+      "willPresentOwnGames": true,
+      "editorid": 3,
+      "festivalid": 1,
+      "tarifzoneid": 3
+    }
+  },
+  "festivalGame": {
+    "1": {
+      "id": 1,
+      "gameTitle": "Heroes of Aletia",
+      "tableCountUsed": 2,
+      "deliveryDate": "2025-11-20",
+      "isReceived": false,
+      "reservationid": 1,
+      "planzoneId": 1
+    },
+    "2": {
+      "id": 2,
+      "gameTitle": "Dice Empire",
+      "tableCountUsed": 1,
+      "deliveryDate": "2025-11-20",
+      "isReceived": false,
+      "reservationid": 1,
+      "planzoneId": 1
+    },
+    "3": {
+      "id": 3,
+      "gameTitle": "Card Wars",
+      "tableCountUsed": 2,
+      "deliveryDate": "2025-11-19",
+      "isReceived": false,
+      "reservationid": 2,
+      "planzoneId": 2
+    }
+  },
+  "invoice": {
+    "1": {
+      "id": 1,
+      "invoiceNumber": "INV-2025-001",
+      "invoiceDate": "2025-09-15",
+      "editorid": 1,
+      "reservationid": 1,
+      "planzoneId": 1
+    },
+    "2": {
+      "id": 2,
+      "invoiceNumber": "INV-2025-002",
+      "invoiceDate": "2025-08-30",
+      "editorid": 2,
+      "reservationid": 2,
+      "planzoneId": 2
+    }
+  }
+}

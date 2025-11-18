@@ -1,6 +1,17 @@
-import express from 'express';
-import cors from 'cors';
-import dotenv from 'dotenv';
+import fs from 'fs'
+import https from 'https'
+import express from 'express'
+import cors from 'cors'
+import morgan from 'morgan'
+import cookieParser from 'cookie-parser'
+// import publicRouter from './routes/public.ts'
+// import usersRouter from './routes/users.ts'
+// import authRouter from './routes/auth.ts'
+import { ensureAdmin } from './database/initAdmin.ts'
+import { verifyToken } from './middleware/token-management.ts'
+import { requireAdmin } from './middleware/auth-admin.ts'
+
+// await ensureAdmin()
 
 const app = express();
 
@@ -16,15 +27,15 @@ app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 	next();
 });
-
+app.use(morgan('dev')) // Log des requêtes : Visualiser le flux de requêtes entre Angular et Express
+app.use(express.json())
+app.use(cookieParser())
 app.use(cors({
 	origin: 'https://localhost',
 	credentials: true,
 	methods: ['GET', 'POST', 'PUT', 'DELETE'],
 	allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
-dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
