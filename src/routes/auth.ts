@@ -6,6 +6,13 @@ import { verifyToken, createAccessToken, createRefreshToken } from '../middlewar
 import { JWT_SECRET } from '../config/env.ts';
 import type { TokenPayload } from '../types/token-payload.ts';
 
+interface PostgresError extends Error {
+    code?: string;
+}
+
+function isPostgresError(err: unknown): err is PostgresError {
+    return err instanceof Error && 'code' in err
+}
 
 const router = Router()
 router.post('/login', async (req, res) => { // --- LOGIN ---
@@ -53,8 +60,8 @@ router.post('/register', async (req, res) => {
             [login, hashed]
         )
         res.status(201).json({ message: 'Utilisateur créé', user: rows[0] })
-    } catch (err: any) {
-        if (err.code === '23505') // doublon PostgreSQL
+    } catch (err: PostgresError | unknown) {
+        if (isPostgresError(err) && err.code === '23505') // doublon PostgreSQL
             return res.status(409).json({ error: 'Login déjà utilisé' })
         console.error(err)
         res.status(500).json({ error: 'Erreur serveur' })

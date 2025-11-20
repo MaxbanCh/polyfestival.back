@@ -1,5 +1,5 @@
-import fs from 'fs'
-import https from 'https'
+// import fs from 'fs'
+// import https from 'https'
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
@@ -9,9 +9,9 @@ import festivalRouter from './routes/festival.ts'
 // import publicRouter from './routes/public.ts'
 import usersRouter from './routes/auth.ts'
 // import authRouter from './routes/auth.ts'
-import { ensureAdmin } from './database/initAdmin.ts'
-import { verifyToken } from './middleware/token-management.ts'
-import { requireAdmin } from './middleware/auth-admin.ts'
+// import { ensureAdmin } from './database/initAdmin.ts'
+// import { verifyToken } from './middleware/token-management.ts'
+// import { requireAdmin } from './middleware/auth-admin.ts'
 
 // await ensureAdmin()
 

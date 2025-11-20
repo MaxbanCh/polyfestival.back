@@ -1,6 +1,6 @@
 import { type Festival } from '../types/festival.ts';
 
-let festivals: Festival[] = [
+const festivals: Festival[] = [
     {
       "id": 1,
       "name": "PolyFestival 2025",
@@ -20,8 +20,6 @@ let festivals: Festival[] = [
       "endDate": new Date("2026-07-17")
     }
 ];
-
-const id = 2;
 
 function displayFestival(festival: Festival): string {
     return `Id : ${festival.name},  Festival: ${festival.name}, Dates: ${festival.startDate.toDateString()} - ${festival.endDate.toDateString()}`;
