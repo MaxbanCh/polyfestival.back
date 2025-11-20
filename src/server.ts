@@ -1,19 +1,22 @@
-import fs from 'fs'
-import https from 'https'
+// import fs from 'fs'
+// import https from 'https'
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
+// import dotenv from 'dotenv'
+import festivalRouter from './routes/festival.ts'
 // import publicRouter from './routes/public.ts'
-// import usersRouter from './routes/users.ts'
+import usersRouter from './routes/auth.ts'
 // import authRouter from './routes/auth.ts'
-import { ensureAdmin } from './database/initAdmin.ts'
-import { verifyToken } from './middleware/token-management.ts'
-import { requireAdmin } from './middleware/auth-admin.ts'
+// import { ensureAdmin } from './database/initAdmin.ts'
+// import { verifyToken } from './middleware/token-management.ts'
+// import { requireAdmin } from './middleware/auth-admin.ts'
 
 // await ensureAdmin()
 
 const app = express();
+// dotenv.config()
 
 app.use((req, res, next) => {
 	res.setHeader('X-Content-Type-Options', 'nosniff')
@@ -37,6 +40,8 @@ app.use(cors({
 	allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+app.use('/api/festivals', festivalRouter);
+app.use('/api/users', usersRouter);
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
