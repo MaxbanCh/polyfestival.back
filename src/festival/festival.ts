@@ -1,0 +1,49 @@
+import { type Festival } from '../types/festival.ts';
+
+let festivals: Festival[] = [
+    {
+      "id": 1,
+      "name": "PolyFestival 2025",
+      "nbtable": 150,
+      "creationDate": new Date("2025-06-15"),
+      "description": "Annual board game and tabletop gaming festival",
+      "startDate": new Date("2025-11-22"),
+      "endDate": new Date("2025-11-24")
+    },
+    {
+      "id": 2,
+      "name": "PolyFestival 2026",
+      "nbtable": 200,
+      "creationDate": new Date("2026-03-10"),
+      "description": "Annual board game and tabletop gaming festival",
+      "startDate": new Date("2026-07-15"),
+      "endDate": new Date("2026-07-17")
+    }
+];
+
+const id = 2;
+
+function displayFestival(festival: Festival): string {
+    return `Id : ${festival.name},  Festival: ${festival.name}, Dates: ${festival.startDate.toDateString()} - ${festival.endDate.toDateString()}`;
+}
+
+function getFestival(id : number): Festival | null {
+    return festivals.find(festival => festival.id === id) || null;
+}
+
+function listFestivals(): Festival[] {
+    return festivals;
+}
+
+function addFestival(festival: Omit<Festival, "id">): void {
+    const newId = festivals.length > 0 ? Math.max(...festivals.map(f => f.id)) + 1 : 1;
+    const newFestival: Festival = { id: newId, ...festival };
+    festivals.push(newFestival);
+}
+
+export {
+    displayFestival,
+    getFestival,
+    listFestivals,
+    addFestival
+};
