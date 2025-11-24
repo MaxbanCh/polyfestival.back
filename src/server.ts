@@ -4,11 +4,10 @@ import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
-// import dotenv from 'dotenv'
+import dotenv from 'dotenv'
 import festivalRouter from './routes/festival.ts'
-// import publicRouter from './routes/public.ts'
 import usersRouter from './routes/auth.ts'
-// import authRouter from './routes/auth.ts'
+import gameRouter from './routes/game.ts'
 // import { ensureAdmin } from './database/initAdmin.ts'
 // import { verifyToken } from './middleware/token-management.ts'
 // import { requireAdmin } from './middleware/auth-admin.ts'
@@ -16,7 +15,7 @@ import usersRouter from './routes/auth.ts'
 // await ensureAdmin()
 
 const app = express();
-// dotenv.config()
+dotenv.config()
 
 app.use((req, res, next) => {
 	res.setHeader('X-Content-Type-Options', 'nosniff')
@@ -34,7 +33,7 @@ app.use(morgan('dev')) // Log des requêtes : Visualiser le flux de requêtes en
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-	origin: 'https://localhost',
+	origin: 'http://localhost:4200',
 	credentials: true,
 	methods: ['GET', 'POST', 'PUT', 'DELETE'],
 	allowedHeaders: ['Content-Type', 'Authorization']
@@ -42,6 +41,7 @@ app.use(cors({
 
 app.use('/api/festivals', festivalRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/games', gameRouter)
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
