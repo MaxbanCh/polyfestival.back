@@ -35,10 +35,11 @@ function listGame(): Game[] {
     return games;
 }
 
-function addGame(game: Omit<Game, "id">): void {
+function addGame(game: Omit<Game, "id">): Game {
     const newId = games.length > 0 ? Math.max(...games.map(g => g.id)) + 1 : 1;
     const newGame: Game = { id: newId, ...game };
     games.push(newGame);
+    return newGame;
 }
 
 export {

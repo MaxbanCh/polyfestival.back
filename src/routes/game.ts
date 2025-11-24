@@ -21,8 +21,8 @@ gameRouter.get('/:id', async (req, res) => {
 
 gameRouter.post('/', async (req, res) => {
     const newgame: Game = req.body;
-    addGame(newgame);
-    res.status(201).json(newgame);
+    const retGame = addGame(newgame);
+    res.status(201).json(retGame);
 });
 
 export default gameRouter;
