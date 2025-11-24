@@ -34,7 +34,7 @@ app.use(morgan('dev')) // Log des requêtes : Visualiser le flux de requêtes en
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-	origin: 'https://localhost',
+	origin: 'http://localhost:4200',
 	credentials: true,
 	methods: ['GET', 'POST', 'PUT', 'DELETE'],
 	allowedHeaders: ['Content-Type', 'Authorization']
