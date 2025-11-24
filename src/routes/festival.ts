@@ -21,8 +21,8 @@ festivalRouter.get('/:id', async (req, res) => {
 
 festivalRouter.post('/', async (req, res) => {
     const newFestival: Festival = req.body;
-    addFestival(newFestival);
-    res.status(201).json(newFestival);
+    const retFestival = addFestival(newFestival);
+    res.status(201).json(retFestival);
 });
 
 export default festivalRouter;

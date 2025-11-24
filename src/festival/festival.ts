@@ -33,10 +33,11 @@ function listFestivals(): Festival[] {
     return festivals;
 }
 
-function addFestival(festival: Omit<Festival, "id">): void {
+function addFestival(festival: Omit<Festival, "id">): Festival {
     const newId = festivals.length > 0 ? Math.max(...festivals.map(f => f.id)) + 1 : 1;
     const newFestival: Festival = { id: newId, ...festival };
     festivals.push(newFestival);
+    return newFestival;
 }
 
 export {
