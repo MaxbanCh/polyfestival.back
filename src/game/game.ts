@@ -1,4 +1,6 @@
 import { type Game } from '../types/game.ts';
+import { getActor } from '../actor/actor.ts';
+import { ActorType } from '../types/actor.ts';
 
 const games: Game[] = [
     {
@@ -37,14 +39,43 @@ function listGame(): Game[] {
 
 function addGame(game: Omit<Game, "id">): Game {
     const newId = games.length > 0 ? Math.max(...games.map(g => g.id)) + 1 : 1;
+    const actorId = game.editorId;
+    if (!getActor(actorId) || getActor(actorId)?.actorType !== ActorType.EDITOR) {
+        throw new Error(`Editor with id ${actorId} does not exist or is not an editor`);
+    }
     const newGame: Game = { id: newId, ...game };
     games.push(newGame);
     return newGame;
+}
+
+function updateGame(game: Game): Game | null {
+    const actorId = game.editorId;
+    if (!getActor(actorId) || getActor(actorId)?.actorType !== ActorType.EDITOR) {
+        throw new Error(`Editor with id ${actorId} does not exist or is not an editor`);
+    }
+    
+    const index = games.findIndex(g => g.id === game.id);
+    if (index !== -1) {
+        games[index] = game;
+        return game;
+    }
+    return null;
+}
+
+function deleteGame(id: number): boolean {
+    const index = games.findIndex(g => g.id === id);
+    if (index !== -1) {
+        games.splice(index, 1);
+        return true;
+    }
+    return false;
 }
 
 export {
     displayGame,
     getGame,
     listGame,
-    addGame
+    addGame,
+    updateGame,
+    deleteGame
 };

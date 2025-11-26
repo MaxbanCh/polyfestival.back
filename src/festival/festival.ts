@@ -40,9 +40,29 @@ function addFestival(festival: Omit<Festival, "id">): Festival {
     return newFestival;
 }
 
+function updateFestival(festival: Festival): Festival | null {
+    const index = festivals.findIndex(f => f.id === festival.id);
+    if (index !== -1) {
+        festivals[index] = festival;
+        return festival;
+    }
+    return null;
+}
+
+function deleteFestival(id: number): boolean {
+    const index = festivals.findIndex(f => f.id === id);
+    if (index !== -1) {
+        festivals.splice(index, 1);
+        return true;
+    }
+    return false;
+}
+
 export {
     displayFestival,
     getFestival,
     listFestivals,
-    addFestival
+    addFestival,
+    updateFestival,
+    deleteFestival
 };

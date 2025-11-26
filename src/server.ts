@@ -8,6 +8,7 @@ import dotenv from 'dotenv'
 import festivalRouter from './routes/festival.ts'
 import usersRouter from './routes/auth.ts'
 import gameRouter from './routes/game.ts'
+import actorRouter from './routes/actor.ts'
 // import { ensureAdmin } from './database/initAdmin.ts'
 // import { verifyToken } from './middleware/token-management.ts'
 // import { requireAdmin } from './middleware/auth-admin.ts'
@@ -41,7 +42,8 @@ app.use(cors({
 
 app.use('/api/festivals', festivalRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/games', gameRouter)
+app.use('/api/games', gameRouter);
+app.use('/api/actors', actorRouter);
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
