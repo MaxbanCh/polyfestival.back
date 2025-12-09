@@ -5,13 +5,13 @@ import { listMapZone, getMapZone, addMapZone, updateMapZone, deleteMapZone } fro
 const zoneMapRouter = Router();
 
 zoneMapRouter.get('/', async (req, res) => {
-    const mapZones: MapZone[] = listMapZone();
+    const mapZones: MapZone[] = await listMapZone();
     res.json(mapZones);
 });
 
 zoneMapRouter.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const mapZone: MapZone | null = getMapZone(id);
+    const mapZone: MapZone | null = await getMapZone(id);
     if (mapZone) {
         res.json(mapZone);
     } else {
@@ -35,7 +35,7 @@ zoneMapRouter.post('/:id', async (req, res) => {
         res.status(400).send('ID in URL does not match ID in body');
         return;
     }
-    const updatedMapZone: MapZone | null = updateMapZone(req.body);
+    const updatedMapZone: MapZone | null = await updateMapZone(req.body);
     if (updatedMapZone) {
         res.json(updatedMapZone);
     } else {
@@ -45,7 +45,7 @@ zoneMapRouter.post('/:id', async (req, res) => {
 
 zoneMapRouter.delete('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const success: boolean = deleteMapZone(id);
+    const success: boolean = await deleteMapZone(id);
     if (success) {
         res.status(204).send();
     } else {

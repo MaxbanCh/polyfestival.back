@@ -5,13 +5,13 @@ import { listActor, getActor, addActor, updateActor, deleteActor } from '../acto
 const actorRouter = Router();
 
 actorRouter.get('/', async (req, res) => {
-    const actors: Actor[] = listActor();
+    const actors: Actor[] = await listActor();
     res.json(actors);
 });
 
 actorRouter.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const actor: Actor | null = getActor(id);
+    const actor: Actor | null = await getActor(id);
     if (actor) {
         res.json(actor);
     } else {
@@ -31,7 +31,7 @@ actorRouter.post('/:id', async (req, res) => {
         res.status(400).send('ID in URL does not match ID in body');
         return;
     }
-    const updatedActor: Actor | null = updateActor(req.body);
+    const updatedActor: Actor | null = await updateActor(req.body);
     if (updatedActor) {
         res.json(updatedActor);
     } else {
@@ -41,7 +41,7 @@ actorRouter.post('/:id', async (req, res) => {
 
 actorRouter.delete('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const success: boolean = deleteActor(id);
+    const success: boolean = await deleteActor(id);
     if (success) {
         res.status(204).send();
     } else {

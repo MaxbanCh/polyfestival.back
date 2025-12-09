@@ -5,13 +5,13 @@ import { listTarifZone, getTarifZone, addTarifZone, updateTarifZone, deleteTarif
 const tarifZoneRouter = Router();
 
 tarifZoneRouter.get('/', async (req, res) => {
-    const tarifZones: TarifZone[] = listTarifZone();
+    const tarifZones: TarifZone[] = await listTarifZone();
     res.json(tarifZones);
 });
 
 tarifZoneRouter.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const tarifZone: TarifZone | null = getTarifZone(id);
+    const tarifZone: TarifZone | null = await getTarifZone(id);
     if (tarifZone) {
         res.json(tarifZone);
     } else {
@@ -35,7 +35,7 @@ tarifZoneRouter.post('/:id', async (req, res) => {
         res.status(400).send('ID in URL does not match ID in body');
         return;
     }
-    const updatedTarifZone: TarifZone | null = updateTarifZone(req.body);
+    const updatedTarifZone: TarifZone | null = await updateTarifZone(req.body);
     if (updatedTarifZone) {
         res.json(updatedTarifZone);
     } else {
@@ -45,7 +45,7 @@ tarifZoneRouter.post('/:id', async (req, res) => {
 
 tarifZoneRouter.delete('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const success: boolean = deleteTarifZone(id);
+    const success: boolean = await deleteTarifZone(id);
     if (success) {
         res.status(204).send();
     } else {

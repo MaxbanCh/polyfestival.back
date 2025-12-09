@@ -1,61 +1,74 @@
 import { type Actor, ActorType } from '../types/actor.ts';
+import pool from '../database/database.ts';
 
-const actors: Actor[] = [
-    {
-      "id": 1,
-      "name": "Polygames",
-      "actorType": ActorType.EDITOR,
-      "description": "UM",
-    },
-    {
-      "id": 2,
-      "name": "Repos Production",
-      "actorType": ActorType.EDITOR,
-      "description": "Belgium",
-    },
-    {
-      "id": 3,
-      "name": "Baraka Jeu",
-      "actorType": ActorType.DISTRIBUTOR,
-      "description": "Montpellier",
-    },
-];
-
-function displayActor(actor : Actor): string {
-    return `Id : ${actor.name},  Actor: ${actor.name}, Type: ${actor.actorType}, Description: ${actor.description}`;
+function displayActor(actor: Actor): string {
+    return `Id : ${actor.id},  Actor: ${actor.name}, Type: ${actor.actorType}, Description: ${actor.description}`;
 }
 
-function getActor(id : number): Actor | null {
-    return actors.find(actor => actor.id === id) || null;
-}
-
-function listActor(): Actor[] {
-    return actors;
-}
-
-function addActor(actor: Omit<Actor, "id">): Actor {
-    const newId = actors.length > 0 ? Math.max(...actors.map(g => g.id)) + 1 : 1;
-    const newActor: Actor = { id: newId, ...actor };
-    actors.push(newActor);
-    return newActor;
-}
-
-function updateActor(actor: Actor): Actor | null {
-    const index = actors.findIndex(g => g.id === actor.id);
-    if (index !== -1) {
-        actors[index] = actor;
-        return actor;
+async function getActor(id: number): Promise<Actor | null> {
+    if (id <= 0) {
+        return null;
     }
-    return null;
+    const res = await pool.query('SELECT * FROM actors WHERE id = $1', [id]);
+    if (res.rows.length === 0) {
+        return null;
+    }
+    const row = res.rows[0];
+    return {
+        id: row.id,
+        name: row.name,
+        actorType: row.actor_type as ActorType,
+        description: row.description
+    };
 }
 
-function deleteActor(id: number): boolean {
-    const index = actors.findIndex(g => g.id === id);
-    if (index !== -1) {
-        actors.splice(index, 1);
-        return true;
+async function listActor(): Promise<Actor[]> {
+    const res = await pool.query('SELECT * FROM actors ORDER BY name;');
+    return res.rows.map(row => ({
+        id: row.id,
+        name: row.name,
+        actorType: row.actor_type as ActorType,
+        description: row.description
+    }));
+}
+
+async function addActor(actor: Omit<Actor, "id">): Promise<Actor> {
+    const res = await pool.query(
+        `INSERT INTO actors (name, actor_type, description)
+         VALUES ($1, $2, $3) RETURNING *`,
+        [actor.name, actor.actorType, actor.description]
+    );
+    const row = res.rows[0];
+    return {
+        id: row.id,
+        name: row.name,
+        actorType: row.actor_type as ActorType,
+        description: row.description
+    };
+}
+
+async function updateActor(actor: Actor): Promise<Actor | null> {
+    const res = await pool.query(
+        `UPDATE actors
+         SET name = $1, actor_type = $2, description = $3
+         WHERE id = $4 RETURNING *`,
+        [actor.name, actor.actorType, actor.description, actor.id]
+    );
+    if (res.rowCount === 0) {
+        return null;
     }
-    return false;
+    const row = res.rows[0];
+    return {
+        id: row.id,
+        name: row.name,
+        actorType: row.actor_type as ActorType,
+        description: row.description
+    };
+}
+
+async function deleteActor(id: number): Promise<boolean> {
+    const res = await pool.query('DELETE FROM actors WHERE id = $1', [id]);
+    return (res.rowCount ?? 0) > 0;
 }
 
 export {

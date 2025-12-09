@@ -5,13 +5,13 @@ import { listGame, getGame, addGame, updateGame, deleteGame } from '../game/game
 const gameRouter = Router();
 
 gameRouter.get('/', async (req, res) => {
-    const games: Game[] = listGame();
+    const games: Game[] = await listGame();
     res.json(games);
 });
 
 gameRouter.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const game: Game | null = getGame(id);
+    const game: Game | null = await getGame(id);
     if (game) {
         res.json(game);
     } else {
@@ -31,7 +31,7 @@ gameRouter.post('/:id', async (req, res) => {
         res.status(400).send('ID in URL does not match ID in body');
         return;
     }
-    const updatedGame: Game | null = updateGame(req.body);
+    const updatedGame: Game | null = await updateGame(req.body);
     if (updatedGame) {
         res.json(updatedGame);
     } else {
@@ -41,7 +41,7 @@ gameRouter.post('/:id', async (req, res) => {
 
 gameRouter.delete('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const success: boolean = deleteGame(id);
+    const success: boolean = await deleteGame(id);
     if (success) {
         res.status(204).send();
     } else {

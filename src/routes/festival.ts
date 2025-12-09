@@ -5,13 +5,13 @@ import { listFestivals, getFestival, addFestival, updateFestival, deleteFestival
 const festivalRouter = Router();
 
 festivalRouter.get('/', async (req, res) => {
-    const festivals: Festival[] = listFestivals();
+    const festivals: Festival[] = await listFestivals();
     res.json(festivals);
 });
 
 festivalRouter.get('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const festival: Festival | null = getFestival(id);
+    const festival: Festival | null = await getFestival(id);
     if (festival) {
         res.json(festival);
     } else {
@@ -31,7 +31,7 @@ festivalRouter.post('/:id', async (req, res) => {
         res.status(400).send('ID in URL does not match ID in body');
         return;
     }
-    const updatedFestival: Festival | null = updateFestival(req.body);
+    const updatedFestival: Festival | null = await updateFestival(req.body);
     if (updatedFestival) {
         res.json(updatedFestival);
     } else {
@@ -41,7 +41,7 @@ festivalRouter.post('/:id', async (req, res) => {
 
 festivalRouter.delete('/:id', async (req, res) => {
     const id = parseInt(req.params.id, 10);
-    const success: boolean = deleteFestival(id);
+    const success: boolean = await deleteFestival(id);
     if (success) {
         res.status(204).send();
     } else {
