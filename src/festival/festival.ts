@@ -1,26 +1,26 @@
 import { type Festival } from '../types/festival.ts';
 import pool from '../database/database.ts';
 
-const festivals: Festival[] = [
-    {
-      "id": 1,
-      "name": "PolyFestival 2025",
-      "nbtable": 150,
-      "creationDate": new Date("2025-06-15"),
-      "description": "Annual board game and tabletop gaming festival",
-      "startDate": new Date("2025-11-22"),
-      "endDate": new Date("2025-11-24")
-    },
-    {
-      "id": 2,
-      "name": "PolyFestival 2026",
-      "nbtable": 200,
-      "creationDate": new Date("2026-03-10"),
-      "description": "Annual board game and tabletop gaming festival",
-      "startDate": new Date("2026-07-15"),
-      "endDate": new Date("2026-07-17")
-    }
-];
+// const festivals: Festival[] = [
+//     {
+//       "id": 1,
+//       "name": "PolyFestival 2025",
+//       "nbtable": 150,
+//       "creationDate": new Date("2025-06-15"),
+//       "description": "Annual board game and tabletop gaming festival",
+//       "startDate": new Date("2025-11-22"),
+//       "endDate": new Date("2025-11-24")
+//     },
+//     {
+//       "id": 2,
+//       "name": "PolyFestival 2026",
+//       "nbtable": 200,
+//       "creationDate": new Date("2026-03-10"),
+//       "description": "Annual board game and tabletop gaming festival",
+//       "startDate": new Date("2026-07-15"),
+//       "endDate": new Date("2026-07-17")
+//     }
+// ];
 
 function displayFestival(festival: Festival): string {
     return `Id : ${festival.name},  Festival: ${festival.name}, Dates: ${festival.startDate.toDateString()} - ${festival.endDate.toDateString()}`;

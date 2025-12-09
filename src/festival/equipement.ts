@@ -1,4 +1,4 @@
-import { type Equipment, EquipmentType } from '../types/equipement.ts';
+import { type Equipment } from '../types/equipement.ts';
 import pool from '../database/database.ts';
 import { getFestival } from './festival.ts';
 
