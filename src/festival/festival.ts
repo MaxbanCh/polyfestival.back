@@ -46,11 +46,12 @@ async function addFestival(festival: Omit<Festival, "id">): Promise<Festival> {
     // const newFestival: Festival = { id: newId, ...festival };
     // festivals.push(newFestival);
     const res = await pool.query(
-        `INSERT INTO festivals (name, nbtable, creationDate, description, startDate, endDate)
+        `INSERT INTO festivals (name, nbtable, "creationDate", description, "startDate", "endDate")
          VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
         [festival.name, festival.nbtable, festival.creationDate, festival.description, festival.startDate, festival.endDate]
     );
     const newFestival: Festival = res.rows[0];
+    console.log('Added festival:', newFestival);
     return newFestival;
 }
 
@@ -63,7 +64,7 @@ async function updateFestival(festival: Festival): Promise<Festival | null> {
     // return null;
     const res = await pool.query(
         `UPDATE festivals
-         SET name = $1, nbtable = $2, creationDate = $3, description = $4, startDate = $5, endDate = $6
+         SET name = $1, nbtable = $2, "creationDate" = $3, description = $4, "startDate" = $5, "endDate" = $6
          WHERE id = $7 RETURNING *`,
         [festival.name, festival.nbtable, festival.creationDate, festival.description, festival.startDate, festival.endDate, festival.id]
     );

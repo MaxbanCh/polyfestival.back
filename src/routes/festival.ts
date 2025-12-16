@@ -20,9 +20,16 @@ festivalRouter.get('/:id', async (req, res) => {
 });
 
 festivalRouter.post('/', async (req, res) => {
-    const newFestival: Festival = req.body;
-    const retFestival = addFestival(newFestival);
-    res.status(201).json(retFestival);
+    try {
+        console.log('Received request body:', req.body);
+        const newFestival: Omit<Festival, "id"> = req.body;
+        const retFestival: Festival = await addFestival(newFestival);
+        console.log('Added festival:', retFestival);
+        res.status(201).json(retFestival);
+    } catch (error) {
+        console.error('Error adding festival:', error);
+        res.status(500).json({ error: 'Failed to add festival', details: error.message });
+    }
 });
 
 festivalRouter.post('/:id', async (req, res) => {

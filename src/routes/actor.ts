@@ -20,8 +20,8 @@ actorRouter.get('/:id', async (req, res) => {
 });
 
 actorRouter.post('/', async (req, res) => {
-    const newActor: Actor = req.body;
-    const retActor = addActor(newActor);
+    const newActor: Omit<Actor, "id"> = req.body;
+    const retActor = await addActor(newActor);
     res.status(201).json(retActor);
 });
 

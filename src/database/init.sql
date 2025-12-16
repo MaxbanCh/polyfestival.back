@@ -19,11 +19,11 @@ CREATE TABLE IF NOT EXISTS festivals (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     nbtable INTEGER NOT NULL,
-    creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "creationDate" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description TEXT,
-    start_date TIMESTAMP NOT NULL,
-    end_date TIMESTAMP NOT NULL,
-    CONSTRAINT valid_dates CHECK (end_date >= start_date)
+    "startDate" TIMESTAMP NOT NULL,
+    "endDate" TIMESTAMP NOT NULL,
+    CONSTRAINT valid_dates CHECK ("endDate" >= "startDate")
 );
 
 -- Games table
@@ -88,4 +88,4 @@ CREATE INDEX IF NOT EXISTS idx_equipment_festival_id ON equipment(festival_id);
 CREATE INDEX IF NOT EXISTS idx_tarif_zones_festival_id ON tarif_zones(festival_id);
 CREATE INDEX IF NOT EXISTS idx_map_zones_festival_id ON map_zones(festival_id);
 CREATE INDEX IF NOT EXISTS idx_map_zones_tariffzoneid ON map_zones(tariffzoneid);
-CREATE INDEX IF NOT EXISTS idx_festivals_dates ON festivals(start_date, end_date);
+CREATE INDEX IF NOT EXISTS idx_festivals_dates ON festivals("startDate", "endDate");
