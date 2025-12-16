@@ -14,6 +14,11 @@ function isPostgresError(err: unknown): err is PostgresError {
     return err instanceof Error && 'code' in err
 }
 
+enum UserRole {
+    ADMIN = 'admin',
+    USER = 'user',
+}
+
 const router = Router()
 router.post('/login', async (req, res) => { // --- LOGIN ---
     const { login, password } = req.body

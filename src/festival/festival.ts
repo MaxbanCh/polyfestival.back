@@ -35,7 +35,9 @@ async function getFestival(id : number): Promise<Festival | null> {
 }
 
 async function listFestivals(): Promise<Festival[]> {
+    
     const res = await pool.query('SELECT * FROM festivals;');
+    console.log(res.rows);
     return res.rows;
 }
 

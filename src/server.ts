@@ -42,6 +42,7 @@ app.use(cors({
 	allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+app.use('/api/auth', usersRouter);
 app.use('/api/festivals', festivalRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/games', gameRouter);

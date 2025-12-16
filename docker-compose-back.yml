@@ -14,15 +14,24 @@ services:
       - "5432:5432"
     networks:
       - polyfestival_back_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U polyfestival"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
 
   backend:
     build:
       context: ./
       dockerfile: Dockerfile.dev
+    environment:
+      - DATABASE_URL=postgres://polyfestival:polyfestival@db:5432/polyfestival
     ports:
       - "3000:3000"
     depends_on:
-      - db
+      db :
+        condition: service_healthy
     networks:
       - polyfestival_back_network
 
