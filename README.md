@@ -3,7 +3,10 @@
 ## Using Docker Compose
 ### Dev Mode
 ```sh
-docker-compose -f docker-compose-back.yml up --build
+# In case there are some relicas from a previous execution
+docker compsoe -f docker-compose-back.yml down -v
+
+docker compose -f docker-compose-back.yml up --build
 ```
 Back Running on http://localhost:3000
 Database running on localhost:5432

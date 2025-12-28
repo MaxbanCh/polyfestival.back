@@ -4,7 +4,7 @@ import { getActor } from '../actor/actor.ts';
 import { ActorType } from '../types/actor.ts';
 
 function displayGame(game: Game): string {
-    return `Id : ${game.id},  Game: ${game.name}, Author: ${game.author}, Type: ${game.type}, Ages: ${game.agemin}-${game.agemax}, Description: ${game.description}`;
+    return `Id : ${game.id},  Game: ${game.name}, Author: ${game.author}, Type: ${game.type}, Age Min: ${game.ageMin}, Description: ${game.description}`;
 }
 
 async function getGame(id: number): Promise<Game | null> {
@@ -21,10 +21,16 @@ async function getGame(id: number): Promise<Game | null> {
         name: row.name,
         author: row.author,
         type: row.type,
-        agemin: row.agemin,
-        agemax: row.agemax,
+        ageMin: row.agemin,
+        nbMinPlayers: row.nbminplayers,
+        nbMaxPlayers: row.nbmaxplayers,
         editorId: row.editor_id,
-        description: row.description
+        description: row.description,
+        notice: row.notice,
+        prototype: row.prototype,
+        duree: row.duree,
+        imageUrl: row.imageurl,
+        videoRulesUrl: row.videorulesurl
     };
 }
 
@@ -35,13 +41,19 @@ async function listGame(): Promise<Game[]> {
         name: row.name,
         author: row.author,
         type: row.type,
-        agemin: row.agemin,
-        agemax: row.agemax,
+        ageMin: row.agemin,
+        nbMinPlayers: row.nbminplayers,
+        nbMaxPlayers: row.nbmaxplayers,
         editorId: row.editor_id,
-        description: row.description
+        description: row.description,
+        notice: row.notice,
+        prototype: row.prototype,
+        duree: row.duree,
+        imageUrl: row.imageurl,
+        videoRulesUrl: row.videorulesurl
     }));
 }
-
+ 
 async function addGame(game: Omit<Game, "id">): Promise<Game> {
     const actor = await getActor(game.editorId);
     if (!actor || actor.actorType !== ActorType.EDITOR) {
@@ -49,9 +61,9 @@ async function addGame(game: Omit<Game, "id">): Promise<Game> {
     }
     
     const res = await pool.query(
-        `INSERT INTO games (name, author, type, agemin, agemax, editor_id, description)
-         VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-        [game.name, game.author, game.type, game.agemin, game.agemax, game.editorId, game.description]
+        `INSERT INTO games (name, author, type, agemin, agemax, nbminplayers, nbmaxplayers, editor_id, description, notice, prototype, duree, imageurl, videorulesurl)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`,
+        [game.name, game.author, game.type, game.ageMin, game.ageMin, game.nbMinPlayers, game.nbMaxPlayers, game.editorId, game.description, game.notice, game.prototype, game.duree, game.imageUrl, game.videoRulesUrl]
     );
     const row = res.rows[0];
     return {
@@ -59,10 +71,16 @@ async function addGame(game: Omit<Game, "id">): Promise<Game> {
         name: row.name,
         author: row.author,
         type: row.type,
-        agemin: row.agemin,
-        agemax: row.agemax,
+        ageMin: row.agemin,
+        nbMinPlayers: row.nbminplayers,
+        nbMaxPlayers: row.nbmaxplayers,
         editorId: row.editor_id,
-        description: row.description
+        description: row.description,
+        notice: row.notice,
+        prototype: row.prototype,
+        duree: row.duree,
+        imageUrl: row.imageurl,
+        videoRulesUrl: row.videorulesurl
     };
 }
 
@@ -74,9 +92,9 @@ async function updateGame(game: Game): Promise<Game | null> {
     
     const res = await pool.query(
         `UPDATE games
-         SET name = $1, author = $2, type = $3, agemin = $4, agemax = $5, editor_id = $6, description = $7
-         WHERE id = $8 RETURNING *`,
-        [game.name, game.author, game.type, game.agemin, game.agemax, game.editorId, game.description, game.id]
+         SET name = $1, author = $2, type = $3, agemin = $4, agemax = $5, nbminplayers = $6, nbmaxplayers = $7, editor_id = $8, description = $9, notice = $10, prototype = $11, duree = $12, imageurl = $13, videorulesurl = $14
+         WHERE id = $15 RETURNING *`,
+        [game.name, game.author, game.type, game.ageMin, game.ageMin, game.nbMinPlayers, game.nbMaxPlayers, game.editorId, game.description, game.notice, game.prototype, game.duree, game.imageUrl, game.videoRulesUrl, game.id]
     );
     if (res.rowCount === 0) {
         return null;
@@ -87,10 +105,16 @@ async function updateGame(game: Game): Promise<Game | null> {
         name: row.name,
         author: row.author,
         type: row.type,
-        agemin: row.agemin,
-        agemax: row.agemax,
+        ageMin: row.agemin,
+        nbMinPlayers: row.nbminplayers,
+        nbMaxPlayers: row.nbmaxplayers,
         editorId: row.editor_id,
-        description: row.description
+        description: row.description,
+        notice: row.notice,
+        prototype: row.prototype,
+        duree: row.duree,
+        imageUrl: row.imageurl,
+        videoRulesUrl: row.videorulesurl
     };
 }
 
