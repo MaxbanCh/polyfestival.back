@@ -119,6 +119,7 @@ async function updateGame(game: Game): Promise<Game | null> {
 }
 
 async function deleteGame(id: number): Promise<boolean> {
+    
     const res = await pool.query('DELETE FROM games WHERE id = $1', [id]);
     return (res.rowCount ?? 0) > 0;
 }

@@ -33,7 +33,6 @@ CREATE TABLE IF NOT EXISTS games (
     author TEXT NOT NULL,
     type TEXT NOT NULL,
     agemin INTEGER NOT NULL,
-    agemax INTEGER NOT NULL,
     nbminplayers INTEGER NOT NULL DEFAULT 1,
     nbmaxplayers INTEGER NOT NULL DEFAULT 1,
     editor_id INTEGER NOT NULL REFERENCES actors(id) ON DELETE CASCADE,
@@ -43,7 +42,6 @@ CREATE TABLE IF NOT EXISTS games (
     duree INTEGER NOT NULL DEFAULT 0,
     imageurl TEXT,
     videorulesurl TEXT,
-    CONSTRAINT valid_age_range CHECK (agemax >= agemin),
     CONSTRAINT valid_players_range CHECK (nbmaxplayers >= nbminplayers)
 );
 
@@ -96,6 +94,14 @@ CREATE TABLE IF NOT EXISTS festival_games (
     quantity INTEGER NOT NULL,
     PRIMARY KEY (festival_id, game_id),
     CONSTRAINT positive_quantity CHECK (quantity >= 0)
+);
+
+CREATE TABLE IF NOT EXISTS tables (
+    id SERIAL PRIMARY KEY,
+    festivalId INTEGER NOT NULL REFERENCES festivals(id) ON DELETE CASCADE,
+    type TEXT NOT NULL,
+    quantityUsedTable INTEGER NOT NULL,
+    quantityMaxTable INTEGER NOT NULL
 );
 
 -- Create indexes for foreign keys and commonly queried fields

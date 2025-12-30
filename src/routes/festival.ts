@@ -28,7 +28,7 @@ festivalRouter.post('/', async (req, res) => {
         res.status(201).json(retFestival);
     } catch (error) {
         console.error('Error adding festival:', error);
-        res.status(500).json({ error: 'Failed to add festival', details: error.message });
+        res.status(500).json({ error: 'Failed to add festival' });
     }
 });
 

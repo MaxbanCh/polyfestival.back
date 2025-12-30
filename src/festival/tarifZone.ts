@@ -39,6 +39,22 @@ async function listTarifZone(): Promise<TarifZone[]> {
     }));
 }
 
+async function listTarifZoneByFestival(festivalId: number): Promise<TarifZone[]> {
+    if (festivalId <= 0) {
+        return [];
+    }
+    const res = await pool.query('SELECT * FROM tarif_zones WHERE festival_id = $1 ORDER BY name;', [festivalId]);
+    return res.rows.map(row => ({
+        id: row.id,
+        name: row.name,
+        festivalId: row.festival_id,
+        nbtable: row.nbtable,
+        tableprice: parseFloat(row.tableprice),
+        pricem2: parseFloat(row.pricem2),
+        availableTables: row.available_tables
+    }));
+}
+
 async function addTarifZone(tarifZone: Omit<TarifZone, "id">): Promise<TarifZone> {
     if (tarifZone.availableTables > tarifZone.nbtable) {
         tarifZone.availableTables = tarifZone.nbtable;
@@ -97,6 +113,7 @@ export {
     displayTarifZone,
     getTarifZone,
     listTarifZone,
+    listTarifZoneByFestival,
     addTarifZone,
     updateTarifZone,
     deleteTarifZone

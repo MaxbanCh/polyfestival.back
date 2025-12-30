@@ -33,6 +33,7 @@ async function listActor(): Promise<Actor[]> {
 }
 
 async function addActor(actor: Omit<Actor, "id">): Promise<Actor> {
+    console.log('Adding actor:', actor);
     const res = await pool.query(
         `INSERT INTO actors (name, actor_type, description)
          VALUES ($1, $2, $3) RETURNING *`,

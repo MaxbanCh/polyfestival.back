@@ -37,6 +37,36 @@ async function listMapZone(): Promise<MapZone[]> {
     }));
 }
 
+async function listMapZoneByFestival(festivalId: number): Promise<MapZone[]> {
+    if (festivalId <= 0) {
+        return [];
+    }
+    const res = await pool.query('SELECT * FROM map_zones WHERE festival_id = $1 ORDER BY name;', [festivalId]);
+    return res.rows.map(row => ({
+        id: row.id,
+        name: row.name,
+        festivalId: row.festival_id,
+        nbtable: row.nbtable,
+        tariffzoneid: row.tariffzoneid,
+        description: row.description
+    }));
+}
+
+async function listMapZoneByTarifZone(tarifZoneId: number): Promise<MapZone[]> {
+    if (tarifZoneId <= 0) {
+        return [];
+    }
+    const res = await pool.query('SELECT * FROM map_zones WHERE tariffzoneid = $1 ORDER BY name;', [tarifZoneId]);
+    return res.rows.map(row => ({
+        id: row.id,
+        name: row.name,
+        festivalId: row.festival_id,
+        nbtable: row.nbtable,
+        tariffzoneid: row.tariffzoneid,
+        description: row.description
+    }));
+}
+
 async function addMapZone(mapZone: Omit<MapZone, "id">): Promise<MapZone> {
     const festival = await getFestival(mapZone.festivalId);
     if (!festival) {
@@ -89,6 +119,8 @@ export {
     displayMapZone,
     getMapZone,
     listMapZone,
+    listMapZoneByFestival,
+    listMapZoneByTarifZone,
     addMapZone,
     updateMapZone,
     deleteMapZone

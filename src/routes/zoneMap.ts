@@ -1,10 +1,22 @@
 import { Router } from 'express';
 import type { MapZone } from '../types/mapZone';
-import { listMapZone, getMapZone, addMapZone, updateMapZone, deleteMapZone } from '../festival/zoneMap';
+import { listMapZone, getMapZone, addMapZone, updateMapZone, deleteMapZone, listMapZoneByFestival, listMapZoneByTarifZone } from '../festival/zoneMap';
 
 const zoneMapRouter = Router();
 
 zoneMapRouter.get('/', async (req, res) => {
+    if (req.query.festivalId) {
+        const festivalId = parseInt(req.query.festivalId as string, 10);
+        const mapZones: MapZone[] = (await listMapZoneByFestival(festivalId));
+        res.json(mapZones);
+        return;
+    }
+    if (req.query.tarifZoneId) {
+        const tarifZoneId = parseInt(req.query.tarifZoneId as string, 10);
+        const mapZones: MapZone[] = (await listMapZoneByTarifZone(tarifZoneId));
+        res.json(mapZones);
+        return;
+    }
     const mapZones: MapZone[] = await listMapZone();
     res.json(mapZones);
 });

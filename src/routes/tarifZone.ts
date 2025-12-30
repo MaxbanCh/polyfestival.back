@@ -1,10 +1,16 @@
 import { Router } from 'express';
 import type { TarifZone } from '../types/tarifZone';
-import { listTarifZone, getTarifZone, addTarifZone, updateTarifZone, deleteTarifZone } from '../festival/tarifZone';
+import { listTarifZone, listTarifZoneByFestival, getTarifZone, addTarifZone, updateTarifZone, deleteTarifZone } from '../festival/tarifZone';
 
 const tarifZoneRouter = Router();
 
 tarifZoneRouter.get('/', async (req, res) => {
+    if (req.query.festivalId) {
+        const festivalId = parseInt(req.query.festivalId as string, 10);
+        const tarifZones: TarifZone[] = (await listTarifZoneByFestival(festivalId));
+        res.json(tarifZones);
+        return;
+    }
     const tarifZones: TarifZone[] = await listTarifZone();
     res.json(tarifZones);
 });

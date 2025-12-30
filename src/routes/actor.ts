@@ -20,7 +20,12 @@ actorRouter.get('/:id', async (req, res) => {
 });
 
 actorRouter.post('/', async (req, res) => {
-    const newActor: Omit<Actor, "id"> = req.body;
+    const body = req.body;
+    const newActor: Omit<Actor, "id"> = {
+        name: body.name,
+        actorType: body.actorType || body.type, // Handle both actorType and type
+        description: body.description
+    };
     const retActor = await addActor(newActor);
     res.status(201).json(retActor);
 });
