@@ -5,6 +5,7 @@ import pool from '../database/database.ts'
 import { verifyToken, createAccessToken, createRefreshToken } from '../middleware/token-management.ts';
 import { JWT_SECRET } from '../config/env.ts';
 import type { TokenPayload } from '../types/token-payload.ts';
+import { ensureAdmin } from '../database/initAdmin.ts';
 
 interface PostgresError extends Error {
     code?: string;
@@ -89,6 +90,15 @@ router.post('/refresh', (req, res) => {
         res.json({ message: 'Token renouvelé' })
     } catch {
         res.status(403).json({ error: 'Refresh token invalide ou expiré' })
+    }
+})
+
+router.get('/initadmin', async (_req, res) => {
+    try {
+        await ensureAdmin()
+        res.json({ message: 'Compte admin vérifié ou créé' })
+    } catch (error) {
+        res.status(500).json({ error: 'Erreur lors de la création du compte admin' })
     }
 })
 

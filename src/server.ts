@@ -5,6 +5,7 @@ import cors from 'cors'
 import morgan from 'morgan'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
+
 import festivalRouter from './routes/festival.ts'
 import usersRouter from './routes/auth.ts'
 import gameRouter from './routes/game.ts'
@@ -12,11 +13,8 @@ import actorRouter from './routes/actor.ts'
 import zoneMapRouter from './routes/zoneMap.ts'
 import tarifZoneRouter from './routes/tarifZone.ts'
 import tableRouter from './routes/table.ts'
-// import { ensureAdmin } from './database/initAdmin.ts'
 // import { verifyToken } from './middleware/token-management.ts'
 // import { requireAdmin } from './middleware/auth-admin.ts'
-
-// await ensureAdmin()
 
 const app = express();
 dotenv.config()
@@ -37,7 +35,7 @@ app.use(morgan('dev')) // Log des requêtes : Visualiser le flux de requêtes en
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-	origin: 'http://localhost:4200',
+	origin: [process.env.FRONTEND_URL || 'http://localhost:4200'],
 	credentials: true,
 	methods: ['GET', 'POST', 'PUT', 'DELETE'],
 	allowedHeaders: ['Content-Type', 'Authorization']
@@ -51,6 +49,7 @@ app.use('/api/actors', actorRouter);
 app.use('/api/zonemaps', zoneMapRouter);
 app.use('/api/tariffzones', tarifZoneRouter);
 app.use('/api/tables', tableRouter);
+app.use('/api/equipments', tableRouter);
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {

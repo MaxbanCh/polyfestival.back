@@ -104,7 +104,25 @@ CREATE TABLE IF NOT EXISTS tables (
     quantityMaxTable INTEGER NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS reservations (
+    id SERIAL PRIMARY KEY,
+    festival_id INTEGER NOT NULL REFERENCES festivals(id) ON DELETE CASCADE,
+    reservant_id INTEGER NOT NULL REFERENCES reservants(id) ON DELETE CASCADE,
+    status TEXT NOT NULL DEFAULT 'NOT_CONTACTED' CHECK (status IN ('NOT_CONTACTED', 'CONTACTED', 'DISCUSSION', 'CONSIDERED_ABSENT', 'CONFIRMED', 'INVOICED', 'PAID')),
+    price_before_discount NUMERIC(10, 2),
+    discount_amount NUMERIC(10, 2),
+    total_price NUMERIC(10, 2),
+    CONSTRAINT positive_prices CHECK (
+        (price_before_discount IS NULL OR price_before_discount >= 0) AND
+        (discount_amount IS NULL OR discount_amount >= 0) AND
+        (total_price IS NULL OR total_price >= 0)
+    )
+);
+
 -- Create indexes for foreign keys and commonly queried fields
+CREATE INDEX IF NOT EXISTS idx_reservations_festival_id ON reservations(festival_id);
+CREATE INDEX IF NOT EXISTS idx_reservations_reservant_id ON reservations(reservant_id);
+CREATE INDEX IF NOT EXISTS idx_reservations_status ON reservations(status);
 CREATE INDEX IF NOT EXISTS idx_games_editor_id ON games(editor_id);
 CREATE INDEX IF NOT EXISTS idx_equipment_festival_id ON equipment(festival_id);
 CREATE INDEX IF NOT EXISTS idx_tarif_zones_festival_id ON tarif_zones(festival_id);

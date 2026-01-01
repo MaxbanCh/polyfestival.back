@@ -35,6 +35,17 @@ async function listEquipment(): Promise<Equipment[]> {
     }));
 }
 
+async function listEquipmentbyFestival(festivalId: number): Promise<Equipment[]> {
+    const res = await pool.query('SELECT * FROM equipment WHERE festival_id = $1 ORDER BY kind;', [festivalId]);
+    return res.rows.map(row => ({
+        id: row.id,
+        festivalId: row.festival_id,
+        kind: row.kind,
+        unitPrice: parseFloat(row.unit_price),
+        quantity: row.quantity
+    }));
+}
+
 async function addEquipment(equipment: Omit<Equipment, "id">): Promise<Equipment> {
     const festival = await getFestival(equipment.festivalId);
     if (!festival) {
@@ -81,13 +92,12 @@ async function deleteEquipment(id: number): Promise<boolean> {
     return (res.rowCount ?? 0) > 0;
 }
 
-
 export {
     displayEquipment,
     getEquipment,
     listEquipment,
+    listEquipmentbyFestival,
     addEquipment,
     updateEquipment,
     deleteEquipment
 };
-
