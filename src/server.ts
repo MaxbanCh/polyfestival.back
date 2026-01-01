@@ -13,6 +13,9 @@ import actorRouter from './routes/actor.ts'
 import zoneMapRouter from './routes/zoneMap.ts'
 import tarifZoneRouter from './routes/tarifZone.ts'
 import tableRouter from './routes/table.ts'
+import equipmentRouter from './routes/equipement.ts'
+
+import reservationRouter from './routes/reservation.ts'
 // import { verifyToken } from './middleware/token-management.ts'
 // import { requireAdmin } from './middleware/auth-admin.ts'
 
@@ -49,7 +52,8 @@ app.use('/api/actors', actorRouter);
 app.use('/api/zonemaps', zoneMapRouter);
 app.use('/api/tariffzones', tarifZoneRouter);
 app.use('/api/tables', tableRouter);
-app.use('/api/equipments', tableRouter);
+app.use('/api/equipments', equipmentRouter);
+app.use('/api/reservations', reservationRouter);
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
