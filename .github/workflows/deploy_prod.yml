@@ -1,0 +1,34 @@
+name: deploy-PolyFestival-Back-Dev
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Pull on VPS
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H lovelace.axithem.fr >> ~/.ssh/known_hosts
+          ssh lovelace.axithem.fr 'cd /home/max/polyfestival/prod/polyfestival.back && docker compose -f docker-compose.prod.yml down && git pull'
+      
+      - name: Deploy on VPS
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H lovelace.axithem.fr >> ~/.ssh/known_hosts
+          ssh lovelace.axithem.fr 'cd /home/max/polyfestival/prod/polyfestival.back && docker-compose -f docker-compose.prod.yml up -d --build'
+          

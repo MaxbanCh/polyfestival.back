@@ -1,12 +1,13 @@
-import type { Response, NextFunction } from 'express'
+import type { Response, NextFunction } from 'express';
 // --- Middleware d'autorisation ---
-export function requireAdmin(req: Express.Request,
-    res: Response, next: NextFunction) {
-    console.log('Vérification des droits admin pour l\'utilisateur :', req.user);
-    if (!req.user || req.user.role !== 'admin') {
-        return res.status(403).json(
-            { error: 'Accès réservé aux administrateurs' }
-        )
-    }
-    next()
+export function requireAdmin(
+  req: Express.Request,
+  res: Response,
+  next: NextFunction,
+) {
+  console.log("Vérification des droits admin pour l'utilisateur :", req.user);
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Accès réservé aux administrateurs' });
+  }
+  next();
 }

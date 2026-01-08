@@ -1,47 +1,74 @@
-import { type Festival } from '../types/festival.ts';
-
-const festivals: Festival[] = [
-    {
-      "id": 1,
-      "name": "PolyFestival 2025",
-      "nbtable": 150,
-      "creationDate": new Date("2025-06-15"),
-      "description": "Annual board game and tabletop gaming festival",
-      "startDate": new Date("2025-11-22"),
-      "endDate": new Date("2025-11-24")
-    },
-    {
-      "id": 2,
-      "name": "PolyFestival 2026",
-      "nbtable": 200,
-      "creationDate": new Date("2026-03-10"),
-      "description": "Annual board game and tabletop gaming festival",
-      "startDate": new Date("2026-07-15"),
-      "endDate": new Date("2026-07-17")
-    }
-];
+import { type Festival } from '../types/festival';
+import pool from '../database/database';
 
 function displayFestival(festival: Festival): string {
-    return `Id : ${festival.name},  Festival: ${festival.name}, Dates: ${festival.startDate.toDateString()} - ${festival.endDate.toDateString()}`;
+  return `Id : ${festival.name},  Festival: ${festival.name}, Dates: ${festival.startDate.toDateString()} - ${festival.endDate.toDateString()}`;
 }
 
-function getFestival(id : number): Festival | null {
-    return festivals.find(festival => festival.id === id) || null;
+async function getFestival(id: number): Promise<Festival | null> {
+  if (id <= 0) {
+    return null;
+  }
+  const res = await pool.query('SELECT * FROM festivals WHERE id = $1', [id]);
+  return res.rows[0] || null;
 }
 
-function listFestivals(): Festival[] {
-    return festivals;
+async function listFestivals(): Promise<Festival[]> {
+  const res = await pool.query('SELECT * FROM festivals;');
+  console.log(res.rows);
+  return res.rows;
 }
 
-function addFestival(festival: Omit<Festival, "id">): void {
-    const newId = festivals.length > 0 ? Math.max(...festivals.map(f => f.id)) + 1 : 1;
-    const newFestival: Festival = { id: newId, ...festival };
-    festivals.push(newFestival);
+async function addFestival(festival: Omit<Festival, 'id'>): Promise<Festival> {
+  const res = await pool.query(
+    `INSERT INTO festivals (name, nbtable, "creationDate", description, "startDate", "endDate")
+         VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+    [
+      festival.name,
+      festival.nbtable,
+      festival.creationDate,
+      festival.description,
+      festival.startDate,
+      festival.endDate,
+    ],
+  );
+  const newFestival: Festival = res.rows[0];
+  console.log('Added festival:', newFestival);
+  return newFestival;
+}
+
+async function updateFestival(festival: Festival): Promise<Festival | null> {
+  const res = await pool.query(
+    `UPDATE festivals
+         SET name = $1, nbtable = $2, "creationDate" = $3, description = $4, "startDate" = $5, "endDate" = $6
+         WHERE id = $7 RETURNING *`,
+    [
+      festival.name,
+      festival.nbtable,
+      festival.creationDate,
+      festival.description,
+      festival.startDate,
+      festival.endDate,
+      festival.id,
+    ],
+  );
+  if (res.rowCount === 0) {
+    return null;
+  }
+  const updatedFestival: Festival = res.rows[0];
+  return updatedFestival;
+}
+
+async function deleteFestival(id: number): Promise<boolean> {
+  const res = await pool.query('DELETE FROM festivals WHERE id = $1', [id]);
+  return res !== null;
 }
 
 export {
-    displayFestival,
-    getFestival,
-    listFestivals,
-    addFestival
+  displayFestival,
+  getFestival,
+  listFestivals,
+  addFestival,
+  updateFestival,
+  deleteFestival,
 };
