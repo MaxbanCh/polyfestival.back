@@ -20,7 +20,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H lovelace.axithem.fr >> ~/.ssh/known_hosts
-          ssh lovelace.axithem.fr 'cd /home/max/polyfestival/dev/polyfestival.back && docker compose -f docker-compose.dev.yml down && git pull'
+          ssh max@lovelace.axithem.fr 'cd /home/max/polyfestival/dev/polyfestival.back && docker compose -f docker-compose.dev.yml down && git pull'
       
       - name: Deploy on VPS
         env:
@@ -30,4 +30,4 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H lovelace.axithem.fr >> ~/.ssh/known_hosts
-          ssh lovelace.axithem.fr 'cd /home/max/polyfestival/dev/polyfestival.back && docker-compose -f docker-compose.dev.yml up -d --build'
+          ssh max@lovelace.axithem.fr 'cd /home/max/polyfestival/dev/polyfestival.back && docker-compose -f docker-compose.dev.yml up -d --build'
