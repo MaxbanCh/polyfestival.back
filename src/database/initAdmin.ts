@@ -1,4 +1,4 @@
-import pool from './database.ts';
+import pool from './database';
 import bcrypt from 'bcryptjs';
 
 export async function ensureAdmin(): Promise<void> {

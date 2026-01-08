@@ -1,6 +1,6 @@
-import { type TarifZone } from '../types/tarifZone.ts';
-import pool from '../database/database.ts';
-import { getFestival } from './festival.ts';
+import { type TarifZone } from '../types/tarifZone';
+import pool from '../database/database';
+import { getFestival } from './festival';
 
 function displayTarifZone(tarifZone: TarifZone): string {
   return `Id : ${tarifZone.id},  TarifZone: ${tarifZone.name}, Tables: ${tarifZone.nbtable}, Festival ID: ${tarifZone.festivalId}`;

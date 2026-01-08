@@ -1,5 +1,5 @@
-import { type Festival } from '../types/festival.ts';
-import pool from '../database/database.ts';
+import { type Festival } from '../types/festival';
+import pool from '../database/database';
 
 function displayFestival(festival: Festival): string {
   return `Id : ${festival.name},  Festival: ${festival.name}, Dates: ${festival.startDate.toDateString()} - ${festival.endDate.toDateString()}`;

@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import type { Game } from '../types/game.ts';
+import type { Game } from '../types/game';
 import {
   listGame,
   getGame,
   addGame,
   updateGame,
   deleteGame,
-} from '../game/game.ts';
+} from '../game/game';
 
 const gameRouter = Router();
 

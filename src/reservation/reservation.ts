@@ -1,7 +1,7 @@
-import type Reservation from '../types/reservation.ts';
-import pool from '../database/database.ts';
-import { getFestival } from '../festival/festival.ts';
-import { getActor } from '../actor/actor.ts';
+import type Reservation from '../types/reservation';
+import pool from '../database/database';
+import { getFestival } from '../festival/festival';
+import { getActor } from '../actor/actor';
 
 async function addReservation(
   reservation: Omit<Reservation, 'id'>,

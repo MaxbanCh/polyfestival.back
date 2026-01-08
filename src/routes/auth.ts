@@ -1,15 +1,15 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import pool from '../database/database.ts';
+import pool from '../database/database';
 import {
   verifyToken,
   createAccessToken,
   createRefreshToken,
-} from '../middleware/token-management.ts';
-import { JWT_SECRET } from '../config/env.ts';
-import type { TokenPayload } from '../types/token-payload.ts';
-import { ensureAdmin } from '../database/initAdmin.ts';
+} from '../middleware/token-management';
+import { JWT_SECRET } from '../config/env';
+import type { TokenPayload } from '../types/token-payload';
+import { ensureAdmin } from '../database/initAdmin';
 
 interface PostgresError extends Error {
   code?: string;

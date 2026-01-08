@@ -1,6 +1,6 @@
-import pool from '../database/database.ts';
-import { TableType } from '../types/table.ts';
-import type Table from '../types/table.ts';
+import pool from '../database/database';
+import { TableType } from '../types/table';
+import type Table from '../types/table';
 
 async function addTable(
   festivalId: number,

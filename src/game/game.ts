@@ -1,7 +1,7 @@
-import { type Game } from '../types/game.ts';
-import pool from '../database/database.ts';
-import { getActor } from '../actor/actor.ts';
-import { ActorType } from '../types/actor.ts';
+import { type Game } from '../types/game';
+import pool from '../database/database';
+import { getActor } from '../actor/actor';
+import { ActorType } from '../types/actor';
 
 function displayGame(game: Game): string {
   return `Id : ${game.id},  Game: ${game.name}, Author: ${game.author}, Type: ${game.type}, Age Min: ${game.ageMin}, Description: ${game.description}`;

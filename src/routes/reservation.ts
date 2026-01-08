@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import type Reservation from '../types/reservation.ts';
+import type Reservation from '../types/reservation';
 import {
   addReservation,
   updateReservation,
   listReservations,
   listReservationsByFestival,
   listReservationsByReservant,
-} from '../reservation/reservation.ts';
+} from '../reservation/reservation';
 
 const reservationRouter = Router();
 

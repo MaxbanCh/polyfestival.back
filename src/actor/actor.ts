@@ -1,5 +1,5 @@
-import { type Actor, ActorType } from '../types/actor.ts';
-import pool from '../database/database.ts';
+import { type Actor, ActorType } from '../types/actor';
+import pool from '../database/database';
 
 function displayActor(actor: Actor): string {
   return `Id : ${actor.id},  Actor: ${actor.name}, Type: ${actor.actorType}, Description: ${actor.description}`;

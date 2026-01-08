@@ -1,6 +1,6 @@
-import { type Equipment } from '../types/equipement.ts';
-import pool from '../database/database.ts';
-import { getFestival } from './festival.ts';
+import { type Equipment } from '../types/equipement';
+import pool from '../database/database';
+import { getFestival } from './festival';
 
 function displayEquipment(equipment: Equipment): string {
   return `Id : ${equipment.id}, Equipment: ${equipment.kind}, Festival ID: ${equipment.festivalId}, Unit Price: ${equipment.unitPrice}, Quantity: ${equipment.quantity}`;

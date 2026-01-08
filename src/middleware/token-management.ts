@@ -1,11 +1,11 @@
 import type { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import type { TokenPayload } from '../types/token-payload.ts';
+import type { TokenPayload } from '../types/token-payload';
 import {
   JWT_SECRET,
   JWT_EXPIRATION,
   REFRESH_EXPIRATION,
-} from '../config/env.ts';
+} from '../config/env';
 
 // --- Fonctions de création et de vérification des tokens ---
 export function createAccessToken(user: TokenPayload) {

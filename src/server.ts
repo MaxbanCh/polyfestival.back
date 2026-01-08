@@ -6,18 +6,18 @@ import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 
-import festivalRouter from './routes/festival.ts';
-import usersRouter from './routes/auth.ts';
-import gameRouter from './routes/game.ts';
-import actorRouter from './routes/actor.ts';
-import zoneMapRouter from './routes/zoneMap.ts';
-import tarifZoneRouter from './routes/tarifZone.ts';
-import tableRouter from './routes/table.ts';
-import equipmentRouter from './routes/equipement.ts';
+import festivalRouter from './routes/festival';
+import usersRouter from './routes/auth';
+import gameRouter from './routes/game';
+import actorRouter from './routes/actor';
+import zoneMapRouter from './routes/zoneMap';
+import tarifZoneRouter from './routes/tarifZone';
+import tableRouter from './routes/table';
+import equipmentRouter from './routes/equipement';
 
-import reservationRouter from './routes/reservation.ts';
-// import { verifyToken } from './middleware/token-management.ts'
-// import { requireAdmin } from './middleware/auth-admin.ts'
+import reservationRouter from './routes/reservation';
+// import { verifyToken } from './middleware/token-management'
+// import { requireAdmin } from './middleware/auth-admin'
 
 const app = express();
 dotenv.config();

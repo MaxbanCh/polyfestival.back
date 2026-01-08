@@ -1,6 +1,6 @@
-import { type MapZone } from '../types/mapZone.ts';
-import pool from '../database/database.ts';
-import { getFestival } from './festival.ts';
+import { type MapZone } from '../types/mapZone';
+import pool from '../database/database';
+import { getFestival } from './festival';
 
 function displayMapZone(mapZone: MapZone): string {
   return `Id : ${mapZone.id},  MapZone: ${mapZone.name}, Description: ${mapZone.description}, Tables: ${mapZone.nbtable}, Tariff Zone ID: ${mapZone.tariffzoneid}, Festival ID: ${mapZone.festivalId}`;
