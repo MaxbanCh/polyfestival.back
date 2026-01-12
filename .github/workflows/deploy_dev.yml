@@ -23,8 +23,8 @@ jobs:
       
       - name: Down Existing Containers
         run: |
-          docker compose -f docker-compose-dev.yml down
+          docker compose -f docker-compose-preprod.yml down
 
       - name: Deploy on VPS
         run: |
-          docker compose -p dev -f docker-compose-dev.yml up -d
+          docker compose -p dev -f docker-compose-preprod.yml up -d
