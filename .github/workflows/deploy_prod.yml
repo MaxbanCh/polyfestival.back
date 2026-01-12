@@ -8,8 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: 
-      group: lovelace-polyfestival-back
-      labels: [self-hosted]
+      labels: [self-hosted, lovelace-festival-back]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
