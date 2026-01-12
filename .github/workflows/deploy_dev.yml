@@ -18,7 +18,7 @@ jobs:
           echo "FRONTEND_URL=${{ secrets.FRONTEND_URL_DEV }}" > .env
           echo "BACKEND_URL=${{ secrets.BACKEND_URL_DEV }}" >> .env
           echo "DATABASE_URL=${{ secrets.DATABASEURL_DEV }}" >> .env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET_DEV }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
           echo "PORT=${{ secrets.PORT_DEV }}" >> .env
       
       - name: Down Existing Containers

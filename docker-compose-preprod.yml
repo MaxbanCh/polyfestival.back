@@ -25,6 +25,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile.preprod
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=postgres://polyfestival:polyfestival@db:5432/polyfestivaldev
     ports:
