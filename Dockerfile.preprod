@@ -5,8 +5,8 @@ COPY package*.json ./
 RUN npm ci
 COPY tsconfig.json ./
 COPY src ./src
-RUN npx tsc -p tsconfig.json && \
-    echo "Compilation TS terminée" && \
+RUN npx tsc -p tsconfig.json --pretty false --noEmitOnError false && \
+    echo "👍 Compilation TS terminée" && \
     ls -la dist
 
 # --- Étape 2 : Exécution en production ---

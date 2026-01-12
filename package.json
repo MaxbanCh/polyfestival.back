@@ -8,7 +8,8 @@
     "lint": "eslint 'src/**/*.{ts,js}' --fix",
     "format": "prettier --write 'src/**/*.{ts,js,json,md}'",
     "dev": "tsx watch src/server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "ci": "npm install && npm run build"
   },
   "repository": {
     "type": "git",

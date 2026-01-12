@@ -24,11 +24,9 @@ services:
   backend:
     build:
       context: ./
-      dockerfile: Dockerfile.dev
-    environment:
-      - DATABASE_URL=postgres://polyfestival:polyfestival@db:5432/polyfestival
+      dockerfile: Dockerfile.prod
     ports:
-      - "3000:3000"
+      - "3001:3001"
     depends_on:
       db :
         condition: service_healthy

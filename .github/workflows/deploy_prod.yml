@@ -7,28 +7,26 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: lovelace-polyfestival-back
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Pull on VPS
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+      - name: Create .env File
         run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H lovelace.axithem.fr >> ~/.ssh/known_hosts
-          ssh max@lovelace.axithem.fr 'cd /home/max/polyfestival/prod/polyfestival.back && docker compose -f docker-compose.prod.yml down && git pull'
+          touch .env
+          echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
+          echo "BACKEND_URL=${{ secrets.BACKEND_URL }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASEURL }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "PORT=${{ secrets.PORT_PROD }}" >> .env
       
-      - name: Deploy on VPS
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+      - name: Down Existing Containers
         run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H lovelace.axithem.fr >> ~/.ssh/known_hosts
-          ssh max@lovelace.axithem.fr 'cd /home/max/polyfestival/prod/polyfestival.back && docker-compose -f docker-compose.prod.yml up -d --build'
-          
+          docker compose -f docker-compose-dev.yml down
+
+        # run: |
+        #   cd /home/github-runner/polyfestival/prod/polyfestival.back 
+        #   docker compose -f docker-compose.prod.yml down
+        #   git pull
+        #   docker-compose -p prod -f docker-compose-prod.yml up -d
