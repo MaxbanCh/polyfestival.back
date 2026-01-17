@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:16-alpine
-    container_name: polyfestival_back_db
+    container_name: polyfestival_back_db_dev
     restart: unless-stopped
     environment:
       POSTGRES_USER: polyfestival
@@ -11,9 +11,9 @@ services:
       - ./src/database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
       - db_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
-      - polyfestival_back_network
+      - polyfestival_back_dev_network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U polyfestival"]
       interval: 5s
@@ -28,18 +28,18 @@ services:
     env_file:
       - .env
     environment:
-      - DATABASE_URL=postgres://polyfestival:polyfestival@db:5432/polyfestivaldev
+      - DATABASE_URL=postgres://polyfestival:polyfestival@db:5433/polyfestivaldev
     ports:
       - "3002:3002"
     depends_on:
       db :
         condition: service_healthy
     networks:
-      - polyfestival_back_network
+      - polyfestival_back_dev_network
 
 volumes:
   db_data:
 
 networks:
-  polyfestival_back_network:
+  polyfestival_back_dev_network:
     driver: bridge
