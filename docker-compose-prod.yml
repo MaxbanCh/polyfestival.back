@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: polyfestival_back_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: polyfestival
+      POSTGRES_PASSWORD: polyfestival
+      POSTGRES_DB: polyfestival
+    volumes:
+      - ./src/database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - polyfestival_back_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U polyfestival"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3001:3001"
+    depends_on:
+      db :
+        condition: service_healthy
+    networks:
+      - polyfestival_back_network
+
+volumes:
+  db_data:
+
+networks:
+  polyfestival_back_network:
+    driver: bridge

@@ -1,0 +1,30 @@
+name: deploy-PolyFestival-Back-Dev
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      
+      - name: Create .env File
+        run: |
+          touch .env
+          echo "FRONTEND_URL=${{ secrets.FRONTEND_URL_DEV }}" > .env
+          echo "BACKEND_URL=${{ secrets.BACKEND_URL_DEV }}" >> .env
+          echo "DATABASE_URL=${{ secrets.DATABASEURL_DEV }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "PORT=${{ secrets.PORT_DEV }}" >> .env
+      
+      - name: Down Existing Containers
+        run: |
+          docker compose -p dev -f docker-compose-preprod.yml down
+
+      - name: Deploy on VPS
+        run: |
+          docker compose -p dev -f docker-compose-preprod.yml up -d --build
