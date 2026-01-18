@@ -23,8 +23,7 @@ tableRouter.post('/', async (req, res) => {
     const retTable: Table = await addTable(
       newTable.festivalId,
       newTable.type,
-      newTable.quantityUsedTable,
-      newTable.quantityMaxTable,
+      newTable.quantity,
     );
     res.status(201).json(retTable);
   } catch (error) {

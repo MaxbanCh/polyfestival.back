@@ -3,6 +3,7 @@ export interface MapZone {
   name: string;
   festivalId: number;
   nbtable: number;
+  surface: number;
   tariffzoneid: number;
   description: string;
 }

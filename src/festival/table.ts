@@ -5,26 +5,24 @@ import type Table from '../types/table';
 async function addTable(
   festivalId: number,
   type: TableType,
-  quantityUsedTable: number,
-  quantityMaxTable: number,
+  quantity: number,
 ): Promise<Table> {
   const res = await pool.query(
-    `INSERT INTO tables (festival_id, type, quantityUsedTable, quantityMaxTable)
-         VALUES ($1, $2, $3, $4) RETURNING *`,
-    [festivalId, type, quantityUsedTable, quantityMaxTable],
+    `INSERT INTO tables (festival_id, type, quantity)
+         VALUES ($1, $2, $3) RETURNING *`,
+    [festivalId, type, quantity],
   );
   const row = res.rows[0];
   return {
     id: row.id,
     festivalId: row.festival_id,
     type: row.type,
-    quantityUsedTable: row.quantity_used_table,
-    quantityMaxTable: row.quantity_max_table,
+    quantity: row.quantity,
   };
 }
 
 function displayTable(table: Table): string {
-  return `Id : ${table.id}, Festival ID: ${table.festivalId}, Type: ${table.type}, Used Quantity: ${table.quantityUsedTable}, Max Quantity: ${table.quantityMaxTable}`;
+  return `Id : ${table.id}, Festival ID: ${table.festivalId}, Type: ${table.type}, Quantity: ${table.quantity}`;
 }
 
 async function getTablesforFestival(festivalId: number): Promise<Table[]> {
@@ -32,15 +30,14 @@ async function getTablesforFestival(festivalId: number): Promise<Table[]> {
     return [];
   }
   const res = await pool.query(
-    'SELECT * FROM tables WHERE festival_id = $1 ORDER BY name;',
+    'SELECT * FROM tables WHERE festival_id = $1;',
     [festivalId],
   );
   return res.rows.map((row) => ({
     id: row.id,
     festivalId: row.festival_id,
     type: row.type,
-    quantityUsedTable: row.quantity_used_table,
-    quantityMaxTable: row.quantity_max_table,
+    quantity: row.quantity,
   }));
 }
 
@@ -52,8 +49,7 @@ async function modifyTable(table: Table): Promise<Table | null> {
     [
       table.festivalId,
       table.type,
-      table.quantityUsedTable,
-      table.quantityMaxTable,
+      table.quantity,
       table.id,
     ],
   );
@@ -65,8 +61,7 @@ async function modifyTable(table: Table): Promise<Table | null> {
     id: row.id,
     festivalId: row.festival_id,
     type: row.type,
-    quantityUsedTable: row.quantity_used_table,
-    quantityMaxTable: row.quantity_max_table,
+    quantity: row.quantity,
   };
 }
 
