@@ -10,6 +10,7 @@ import festivalRouter from './routes/festival';
 import usersRouter from './routes/auth';
 import gameRouter from './routes/game';
 import actorRouter from './routes/actor';
+import actorContactRouter from './routes/actorContact';
 import zoneMapRouter from './routes/zoneMap';
 import tarifZoneRouter from './routes/tarifZone';
 import tableRouter from './routes/table';
@@ -50,7 +51,10 @@ app.use('/api/auth', usersRouter);
 app.use('/api/festivals', festivalRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/games', gameRouter);
+
 app.use('/api/actors', actorRouter);
+app.use('/api/actorcontacts', actorContactRouter);
+
 app.use('/api/zonemaps', zoneMapRouter);
 app.use('/api/tariffzones', tarifZoneRouter);
 app.use('/api/tables', tableRouter);
