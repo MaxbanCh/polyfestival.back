@@ -223,7 +223,7 @@ router.get('/initadmin', async (_req, res) => {
     await ensureDefaultUsers();
     res.json({ message: 'Comptes par défaut vérifiés ou créés' });
   } catch (error) {
-    res.status(500).json({ error: 'Erreur lors de la création du compte admin' });
+    res.status(500).json({ error: error instanceof Error ? error.message : 'Erreur serveur' });
   }
 });
 
