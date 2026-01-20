@@ -1,6 +1,5 @@
 import pool from '../database/database';
 import type Reservation from '../types/reservation';
-import { ReservationStatus } from '../types/reservation';
 import { getFestival } from '../festival/festival';
 import { getActor } from '../actor/actor';
 

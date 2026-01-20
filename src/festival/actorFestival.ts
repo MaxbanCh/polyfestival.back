@@ -1,9 +1,6 @@
-import { Router } from 'express';
 import pool from '../database/database';
 import type { ActorFestival } from '../types/actorFestival';
 import { ReservationStatus } from '../types/reservation';
-
-const router = Router();
 
 export async function getActorFestivalsByFestival(
   festivalId: number,

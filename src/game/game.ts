@@ -56,7 +56,7 @@ async function listGame(): Promise<Game[]> {
 
 async function addGame(game: Omit<Game, 'id'>): Promise<Game> {
   const actor = await getActor(game.editorId);
-  if (!actor || actor.actorType !== ActorType.EDITOR) {
+  if (!actor || !actor.actorType.includes(ActorType.EDITOR)) {
     throw new Error(
       `Editor with id ${game.editorId} does not exist or is not an editor`,
     );
@@ -103,7 +103,7 @@ async function addGame(game: Omit<Game, 'id'>): Promise<Game> {
 
 async function updateGame(game: Game): Promise<Game | null> {
   const actor = await getActor(game.editorId);
-  if (!actor || actor.actorType !== ActorType.EDITOR) {
+  if (!actor || !actor.actorType.includes(ActorType.EDITOR)) {
     throw new Error(
       `Editor with id ${game.editorId} does not exist or is not an editor`,
     );
