@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     login TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
-    role TEXT DEFAULT 'user'
+    role TEXT DEFAULT 'user',
+    validated BOOLEAN DEFAULT FALSE
 );
 
 -- Actors table
@@ -33,7 +34,6 @@ CREATE TABLE IF NOT EXISTS actor_contacts (
 CREATE TABLE IF NOT EXISTS festivals (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    nbtable INTEGER NOT NULL,
     "creationDate" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description TEXT,
     "startDate" TIMESTAMP NOT NULL,
