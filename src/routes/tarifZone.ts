@@ -35,7 +35,7 @@ tarifZoneRouter.get('/:id', async (req, res) => {
 tarifZoneRouter.post('/', async (req, res) => {
   try {
     const newTarifZone: Omit<TarifZone, 'id'> = req.body;
-    const retTarifZone = addTarifZone(newTarifZone);
+    const retTarifZone = await addTarifZone(newTarifZone);
     res.status(201).json(retTarifZone);
   } catch (error) {
     res

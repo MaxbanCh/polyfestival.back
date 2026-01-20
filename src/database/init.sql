@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     login TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
-    role TEXT DEFAULT 'user'
+    role TEXT DEFAULT 'user',
+    validated BOOLEAN DEFAULT FALSE
 );
 
 -- Actors table
@@ -33,7 +34,6 @@ CREATE TABLE IF NOT EXISTS actor_contacts (
 CREATE TABLE IF NOT EXISTS festivals (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    nbtable INTEGER NOT NULL,
     "creationDate" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     description TEXT,
     "startDate" TIMESTAMP NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS festivals (
     CONSTRAINT valid_dates CHECK ("endDate" >= "startDate")
 );
 
--- Actor festivals table (many-to-many relationship)
+-- Actor festivals table
 CREATE TABLE IF NOT EXISTS actor_festivals (
     id SERIAL PRIMARY KEY,
     festival_id INTEGER NOT NULL REFERENCES festivals(id) ON DELETE CASCADE,
@@ -118,14 +118,6 @@ CREATE TABLE IF NOT EXISTS map_zones (
     CONSTRAINT positive_surface CHECK (surface IS NULL OR surface >= 0)
 );
 
--- Reservants table (deprecated - use actors instead)
-CREATE TABLE IF NOT EXISTS reservants (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    reservant_type TEXT NOT NULL CHECK (reservant_type IN ('EDITOR', 'FESTIVAL', 'ORGANIZATION', 'ANIMATOR')),
-    billingaddress TEXT NOT NULL
-);
-
 -- Festival games table
 CREATE TABLE IF NOT EXISTS festival_games (
     festival_id INTEGER NOT NULL REFERENCES festivals(id) ON DELETE CASCADE,
@@ -162,8 +154,7 @@ CREATE TABLE IF NOT EXISTS reservations (
         (price_before_discount IS NULL OR price_before_discount >= 0) AND
         (discount_amount IS NULL OR discount_amount >= 0) AND
         (total_price IS NULL OR total_price >= 0)
-    ),
-    CONSTRAINT positive_free_tables CHECK (free_tables IS NULL OR free_tables >= 0)
+    )
 );
 
 -- Reservation contacts table

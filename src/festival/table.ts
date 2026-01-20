@@ -44,8 +44,8 @@ async function getTablesforFestival(festivalId: number): Promise<Table[]> {
 async function modifyTable(table: Table): Promise<Table | null> {
   const res = await pool.query(
     `UPDATE tables
-         SET festival_id = $1, type = $2, quantityUsedTable = $3, quantityMaxTable = $4
-         WHERE id = $5 RETURNING *`,
+         SET festival_id = $1, type = $2, quantity = $3
+         WHERE id = $4 RETURNING *`,
     [
       table.festivalId,
       table.type,

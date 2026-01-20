@@ -38,16 +38,24 @@ actorRouter.get('/:id', async (req, res) => {
 
 actorRouter.post('/', async (req, res) => {
   const body = req.body;
-  const actorType = body.actorType || body.type;
-  const newActor: Omit<Actor, 'id'> = {
-    name: body.name,
-    actorType: Array.isArray(actorType) ? actorType : [actorType],
-    email: body.email ?? null,
-    phone: body.phone ?? null,
-    description: body.description ?? null,
-  };
-  const retActor = await addActor(newActor);
-  res.status(201).json(toFrontActor(retActor));
+  if (body.actor && body.canReserve) {
+    const newActor: Omit<Actor, 'id'> = body.actor;
+    const retActor = await addActor(newActor);
+    res.status(201).json(toFrontActor(retActor));
+  }
+  else {
+    const actorType = body.actorType || body.type;
+    const newActor: Omit<Actor, 'id'> = {
+      name: body.name,
+      actorType: Array.isArray(actorType) ? actorType : [actorType],
+      email: body.email ?? null,
+      phone: body.phone ?? null,
+      description: body.description ?? null,
+    };
+    const retActor = await addActor(newActor);
+    res.status(201).json(toFrontActor(retActor));
+  }
+
 });
 
 actorRouter.post('/:id', async (req, res) => {
