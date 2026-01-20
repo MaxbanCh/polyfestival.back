@@ -1,5 +1,6 @@
 import { type Festival } from '../types/festival';
 import pool from '../database/database';
+import { listTarifZoneByFestival } from './tarifZone';
 
 function displayFestival(festival: Festival): string {
   return `Id : ${festival.name},  Festival: ${festival.name}, Dates: ${festival.startDate.toDateString()} - ${festival.endDate.toDateString()}`;
@@ -21,15 +22,15 @@ async function listFestivals(): Promise<Festival[]> {
 
 async function addFestival(festival: Omit<Festival, 'id'>): Promise<Festival> {
   const res = await pool.query(
-    `INSERT INTO festivals (name, nbtable, "creationDate", description, "startDate", "endDate")
-         VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+    `INSERT INTO festivals (name, "creationDate", description, "startDate", "endDate")
+         VALUES ($1, $2, $3, $4, $5) RETURNING *`,
     [
       festival.name,
-      festival.nbtable,
-      festival.creationDate,
-      festival.description,
+      festival.creationDate ?? new Date(),
+      festival.description ?? '',
       festival.startDate,
       festival.endDate,
+      
     ],
   );
   const newFestival: Festival = res.rows[0];
@@ -44,7 +45,6 @@ async function updateFestival(festival: Festival): Promise<Festival | null> {
          WHERE id = $7 RETURNING *`,
     [
       festival.name,
-      festival.nbtable,
       festival.creationDate,
       festival.description,
       festival.startDate,
@@ -60,6 +60,12 @@ async function updateFestival(festival: Festival): Promise<Festival | null> {
 }
 
 async function deleteFestival(id: number): Promise<boolean> {
+  if (await listTarifZoneByFestival(id).then((zones) => zones.length > 0)) {
+    throw new Error(`Cannot delete festival with id ${id} because it has associated tarif zones.`);
+  }
+  if (id <= 0) {
+    return false;
+  }
   const res = await pool.query('DELETE FROM festivals WHERE id = $1', [id]);
   return res !== null;
 }

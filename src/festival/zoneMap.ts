@@ -20,6 +20,7 @@ async function getMapZone(id: number): Promise<MapZone | null> {
     name: row.name,
     festivalId: row.festival_id,
     nbtable: row.nbtable,
+    surface: row.surface,
     tariffzoneid: row.tariffzoneid,
     description: row.description,
   };
@@ -34,6 +35,7 @@ async function listMapZone(): Promise<MapZone[]> {
     name: row.name,
     festivalId: row.festival_id,
     nbtable: row.nbtable,
+    surface: row.surface,
     tariffzoneid: row.tariffzoneid,
     description: row.description,
   }));
@@ -52,6 +54,7 @@ async function listMapZoneByFestival(festivalId: number): Promise<MapZone[]> {
     name: row.name,
     festivalId: row.festival_id,
     nbtable: row.nbtable,
+    surface: row.surface,
     tariffzoneid: row.tariffzoneid,
     description: row.description,
   }));
@@ -70,6 +73,7 @@ async function listMapZoneByTarifZone(tarifZoneId: number): Promise<MapZone[]> {
     name: row.name,
     festivalId: row.festival_id,
     nbtable: row.nbtable,
+    surface: row.surface,
     tariffzoneid: row.tariffzoneid,
     description: row.description,
   }));
@@ -82,12 +86,13 @@ async function addMapZone(mapZone: Omit<MapZone, 'id'>): Promise<MapZone> {
   }
 
   const res = await pool.query(
-    `INSERT INTO map_zones (name, festival_id, nbtable, tariffzoneid, description)
-         VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+    `INSERT INTO map_zones (name, festival_id, nbtable, surface, tariffzoneid, description)
+         VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
     [
       mapZone.name,
       mapZone.festivalId,
       mapZone.nbtable,
+      mapZone.surface ?? 0,
       mapZone.tariffzoneid,
       mapZone.description,
     ],
@@ -98,6 +103,7 @@ async function addMapZone(mapZone: Omit<MapZone, 'id'>): Promise<MapZone> {
     name: row.name,
     festivalId: row.festival_id,
     nbtable: row.nbtable,
+    surface: row.surface,
     tariffzoneid: row.tariffzoneid,
     description: row.description,
   };
@@ -112,6 +118,7 @@ async function updateMapZone(mapZone: MapZone): Promise<MapZone | null> {
       mapZone.name,
       mapZone.festivalId,
       mapZone.nbtable,
+      mapZone.surface ?? 0,
       mapZone.tariffzoneid,
       mapZone.description,
       mapZone.id,
@@ -126,6 +133,7 @@ async function updateMapZone(mapZone: MapZone): Promise<MapZone | null> {
     name: row.name,
     festivalId: row.festival_id,
     nbtable: row.nbtable,
+    surface: row.surface,
     tariffzoneid: row.tariffzoneid,
     description: row.description,
   };

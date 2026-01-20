@@ -42,7 +42,7 @@ zoneMapRouter.get('/:id', async (req, res) => {
 zoneMapRouter.post('/', async (req, res) => {
   try {
     const newMapZone: Omit<MapZone, 'id'> = req.body;
-    const retMapZone = addMapZone(newMapZone);
+    const retMapZone = await addMapZone(newMapZone);
     res.status(201).json(retMapZone);
   } catch (error) {
     res
