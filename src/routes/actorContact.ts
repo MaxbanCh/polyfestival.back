@@ -9,8 +9,8 @@ import {
 
 const actorContactRouter = Router();
 
-actorContactRouter.get('/actor/:actorId', async (req, res) => {
-  const actorId = parseInt(req.params.actorId, 10);
+actorContactRouter.get('/', async (req, res) => {
+  const actorId = parseInt(req.query.actorId as string, 10);
   const contact: ActorContact | null = await getActorContactbyActor(actorId);
   if (contact) {
     res.json(contact);
@@ -39,7 +39,9 @@ actorContactRouter.put('/:id', async (req, res) => {
     res.status(400).send('ID in URL does not match ID in body');
     return;
   }
-  const updatedContact: ActorContact | null = await updateActorContact(req.body);
+  const updatedContact: ActorContact | null = await updateActorContact(
+    req.body,
+  );
   if (updatedContact) {
     res.json(updatedContact);
   } else {
@@ -58,4 +60,3 @@ actorContactRouter.delete('/:id', async (req, res) => {
 });
 
 export default actorContactRouter;
-
