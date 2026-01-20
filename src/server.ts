@@ -15,8 +15,16 @@ import zoneMapRouter from './routes/zoneMap';
 import tarifZoneRouter from './routes/tarifZone';
 import tableRouter from './routes/table';
 import equipmentRouter from './routes/equipement';
-
 import reservationRouter from './routes/reservation';
+import actorFestivalRouter from './routes/actorFestival';
+import festivalEquipmentStockRouter from './routes/festivalEquipmentStock';
+import invoiceRouter from './routes/invoice';
+import reservationContactRouter from './routes/reservationContact';
+import reservationNoteRouter from './routes/reservationNote';
+import reservationTariffzoneAllocationRouter from './routes/reservationTariffzoneAllocation';
+import reservationGameRouter from './routes/reservationGame';
+import reservationGamePlacementRouter from './routes/reservationGamePlacement';
+
 // import { verifyToken } from './middleware/token-management'
 // import { requireAdmin } from './middleware/auth-admin'
 
@@ -47,19 +55,43 @@ app.use(
   }),
 );
 
+// Auth and users
 app.use('/api/auth', usersRouter);
-app.use('/api/festivals', festivalRouter);
 app.use('/api/users', usersRouter);
+
+// Festivals
+app.use('/api/festivals', festivalRouter);
+
+// Games
 app.use('/api/games', gameRouter);
 
+// Actors
 app.use('/api/actors', actorRouter);
-app.use('/api/actorcontacts', actorContactRouter);
+app.use('/api/actor-contacts', actorContactRouter);
+app.use('/api/contacts', actorContactRouter);
+app.use('/api/actor-festivals', actorFestivalRouter);
 
+// Zones and tables
 app.use('/api/zonemaps', zoneMapRouter);
 app.use('/api/tariffzones', tarifZoneRouter);
+app.use('/api/Tariffzones', tarifZoneRouter);
 app.use('/api/tables', tableRouter);
+
+// Equipment
 app.use('/api/equipments', equipmentRouter);
+app.use('/api/festival-equipment-stocks', festivalEquipmentStockRouter);
+
+// Reservations
 app.use('/api/reservations', reservationRouter);
+app.use('/api/reservation-contacts', reservationContactRouter);
+app.use('/api/reservation-notes', reservationNoteRouter);
+app.use('/api/reservation-tariffzone-allocations', reservationTariffzoneAllocationRouter);
+app.use('/api/reservation-games', reservationGameRouter);
+app.use('/api/reservation-game-placements', reservationGamePlacementRouter);
+
+// Invoices
+app.use('/api/invoices', invoiceRouter);
+
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
