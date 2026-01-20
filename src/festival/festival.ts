@@ -25,11 +25,12 @@ async function addFestival(festival: Omit<Festival, 'id'>): Promise<Festival> {
          VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
     [
       festival.name,
-      festival.nbtable,
-      festival.creationDate,
-      festival.description,
+      festival.nbtable ?? 0,
+      festival.creationDate ?? new Date(),
+      festival.description ?? '',
       festival.startDate,
       festival.endDate,
+      
     ],
   );
   const newFestival: Festival = res.rows[0];
