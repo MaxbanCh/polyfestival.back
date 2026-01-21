@@ -1,7 +1,6 @@
 import { type Game } from '../types/game';
 import pool from '../database/database';
 import { displayActor, getActor } from '../actor/actor';
-import { ActorType } from '../types/actor';
 
 function displayGame(game: Game): string {
   return `Id : ${game.id},  Game: ${game.name}, Author: ${game.author}, Type: ${game.type}, Age Min: ${game.ageMin}, Description: ${game.description}`;
@@ -103,7 +102,7 @@ async function addGame(game: Omit<Game, 'id'>): Promise<Game> {
 
 async function updateGame(game: Game): Promise<Game | null> {
   const actor = await getActor(game.editorId);
-  if (!actor || !actor.actorType.includes(ActorType.EDITOR)) {
+  if (!actor || !actor.actorType.includes('PUBLISHER')) {
     throw new Error(
       `Editor with id ${game.editorId} does not exist or is not an editor`,
     );

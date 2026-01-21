@@ -1,9 +1,7 @@
 export interface ReservationContact {
   id: number;
   reservationId: number;
-  contactId: number;
+  contactId: number | null;
   contactDate: string | null;
   notes: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
 }
