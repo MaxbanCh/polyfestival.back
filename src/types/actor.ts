@@ -7,6 +7,7 @@ export interface Actor {
     description?: string | null;
     reservantType?: ActorType | null;
     billingAddress?: string | null;
+    logoURL?: string | null;
 }
 
 export enum ActorType {

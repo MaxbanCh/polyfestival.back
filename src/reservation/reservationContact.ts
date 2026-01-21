@@ -66,16 +66,14 @@ export async function addReservationContact(
   contact: Omit<ReservationContact, 'id'>,
 ): Promise<ReservationContact> {
   const res = await pool.query(
-    `INSERT INTO reservation_contacts (reservation_id, contact_id, contact_date, notes, created_at, updated_at)
-     VALUES ($1, $2, COALESCE($3, CURRENT_TIMESTAMP), $4, COALESCE($5, CURRENT_TIMESTAMP), COALESCE($6, CURRENT_TIMESTAMP))
+    `INSERT INTO reservation_contacts (reservation_id, contact_id, contact_date, notes)
+     VALUES ($1, $2, COALESCE($3, CURRENT_TIMESTAMP), $4)
      RETURNING *`,
     [
       contact.reservationId,
       contact.contactId ?? null,
       contact.contactDate ?? null,
       contact.notes ?? null,
-      contact.createdAt ?? null,
-      contact.updatedAt ?? null,
     ],
   );
   const row = res.rows[0];
@@ -85,8 +83,6 @@ export async function addReservationContact(
     contactId: row.contact_id,
     contactDate: row.contact_date,
     notes: row.notes,
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
   };
 }
 
@@ -96,7 +92,6 @@ export async function updateReservationContact(
     contactId?: number | null;
     contactDate?: string | null;
     notes?: string | null;
-    updatedAt?: string | null;
   },
 ): Promise<ReservationContact | null> {
   if (id <= 0) {
@@ -107,15 +102,13 @@ export async function updateReservationContact(
      SET
        contact_id = COALESCE($1, contact_id),
        contact_date = COALESCE($2, contact_date),
-       notes = COALESCE($3, notes),
-       updated_at = COALESCE($4, CURRENT_TIMESTAMP)
-     WHERE id = $5
+       notes = COALESCE($3, notes)
+     WHERE id = $4
      RETURNING *`,
     [
       updates.contactId ?? null,
       updates.contactDate ?? null,
       updates.notes ?? null,
-      updates.updatedAt ?? null,
       id,
     ],
   );
@@ -129,8 +122,6 @@ export async function updateReservationContact(
     contactId: row.contact_id,
     contactDate: row.contact_date,
     notes: row.notes,
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
   };
 }
 

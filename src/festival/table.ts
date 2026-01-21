@@ -25,6 +25,20 @@ function displayTable(table: Table): string {
   return `Id : ${table.id}, Festival ID: ${table.festivalId}, Type: ${table.type}, Quantity: ${table.quantity}`;
 }
 
+async function getTable(): Promise<Table[]> {
+  const res = await pool.query('SELECT * FROM tables;');
+  if (res.rows.length === 0) {
+    return [];
+  }
+  return res.rows.map((row) => ({
+    id: row.id,
+    festivalId: row.festival_id,
+    type: row.type,
+    quantity: row.quantity,
+  }));
+}
+
+
 async function getTablesforFestival(festivalId: number): Promise<Table[]> {
   if (festivalId <= 0) {
     return [];
@@ -65,4 +79,4 @@ async function modifyTable(table: Table): Promise<Table | null> {
   };
 }
 
-export { addTable, displayTable, getTablesforFestival, modifyTable };
+export { getTable, addTable, displayTable, getTablesforFestival, modifyTable };

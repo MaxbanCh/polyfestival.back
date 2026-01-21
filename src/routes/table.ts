@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import type Table from '../types/table';
-import { addTable, modifyTable, getTablesforFestival } from '../festival/table';
+import { addTable, modifyTable, getTablesforFestival, getTable } from '../festival/table';
 
 const tableRouter = Router();
 
@@ -11,10 +11,10 @@ tableRouter.get('/', async (req, res) => {
     res.json(tables);
     return;
   }
-  // else {
-  //     const tables: Table[] = await listTables();
-  //     res.json(tables);
-  // }
+  else {
+      const tables: Table[] = await getTable();
+      res.json(tables);
+  }
 });
 
 tableRouter.post('/', async (req, res) => {
