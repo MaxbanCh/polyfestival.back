@@ -30,7 +30,7 @@ reservationContactRouter.get('/', async (req, res) => {
 });
 
 reservationContactRouter.post('/', async (req, res) => {
-  const { reservationId, contactId, contactDate, notes, createdAt, updatedAt } = req.body ?? {};
+  const { reservationId, contactId, contactDate, notes } = req.body ?? {};
   if (!Number.isFinite(reservationId)) {
     return res.status(400).json({ error: 'reservationId requis' });
   }
@@ -40,8 +40,6 @@ reservationContactRouter.post('/', async (req, res) => {
     contactId: contactId ?? null,
     contactDate: contactDate ?? null,
     notes: notes ?? null,
-    createdAt: createdAt ?? null,
-    updatedAt: updatedAt ?? null,
   };
 
   const contact: ReservationContact = await addReservationContact(newContact);
@@ -53,13 +51,12 @@ reservationContactRouter.post('/:id', async (req, res) => {
   if (!Number.isFinite(id)) {
     return res.status(400).json({ error: 'Id invalide' });
   }
-  const { contactId, contactDate, notes, updatedAt } = req.body ?? {};
+  const { contactId, contactDate, notes } = req.body ?? {};
 
   const contact: ReservationContact | null = await updateReservationContact(id, {
     contactId,
     contactDate,
     notes,
-    updatedAt,
   });
   if (contact) {
     res.json(contact);

@@ -123,7 +123,7 @@ async function updateActor(actor: Actor): Promise<Actor | null> {
   const res = await pool.query(
     `UPDATE actors
      SET name = $1, actor_type = $2, email = $3, phone = $4, description = $5, reservant_type = $6, billingaddress = $7
-     WHERE id = $6 RETURNING *`,
+     WHERE id = $8 RETURNING *`,
     [
       actor.name,
       serializeTypes(actor.actorType),
@@ -146,6 +146,8 @@ async function updateActor(actor: Actor): Promise<Actor | null> {
     email: row.email ?? null,
     phone: row.phone ?? null,
     description: row.description ?? null,
+    reservantType: row.reservant_type ?? null,
+    billingAddress: row.billingaddress ?? null,
   };
 }
 

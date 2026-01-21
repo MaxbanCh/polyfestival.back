@@ -7,7 +7,7 @@ import {
   markInvoiceAsPaid,
   updateInvoice,
   deleteInvoice,
-} from '../invoice/invoice';
+} from '../reservation/invoice';
 
 const invoiceRouter = Router();
 

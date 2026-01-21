@@ -74,7 +74,7 @@ async function sumBookedTablesByTariffzone(reservationId: number, tariffzoneId: 
 
 async function getTableStockMax(festivalId: number, tableType: string): Promise<number | null> {
   const { rows } = await pool.query(
-    'SELECT quantity FROM tables WHERE festivalid = $1 AND type = $2',
+    'SELECT quantity FROM tables WHERE festival_id = $1 AND type = $2',
     [festivalId, tableType],
   );
   if (!rows[0]) return null;

@@ -1,6 +1,7 @@
 import { type MapZone } from '../types/mapZone';
 import pool from '../database/database';
 import { getFestival } from './festival';
+import { TABLE_AREA_M2 } from '../types/table';
 
 function displayMapZone(mapZone: MapZone): string {
   return `Id : ${mapZone.id},  MapZone: ${mapZone.name}, Description: ${mapZone.description}, Tables: ${mapZone.nbtable}, Tariff Zone ID: ${mapZone.tariffzoneid}, Festival ID: ${mapZone.festivalId}`;
@@ -84,6 +85,7 @@ async function addMapZone(mapZone: Omit<MapZone, 'id'>): Promise<MapZone> {
   if (!festival) {
     throw new Error(`Festival with id ${mapZone.festivalId} does not exist`);
   }
+  const surface = mapZone.nbtable * TABLE_AREA_M2;
 
   const res = await pool.query(
     `INSERT INTO map_zones (name, festival_id, nbtable, surface, tariffzoneid, description)
@@ -92,7 +94,7 @@ async function addMapZone(mapZone: Omit<MapZone, 'id'>): Promise<MapZone> {
       mapZone.name,
       mapZone.festivalId,
       mapZone.nbtable,
-      mapZone.surface ?? 0,
+      surface,
       mapZone.tariffzoneid,
       mapZone.description,
     ],
@@ -112,13 +114,13 @@ async function addMapZone(mapZone: Omit<MapZone, 'id'>): Promise<MapZone> {
 async function updateMapZone(mapZone: MapZone): Promise<MapZone | null> {
   const res = await pool.query(
     `UPDATE map_zones
-         SET name = $1, festival_id = $2, nbtable = $3, tariffzoneid = $4, description = $5
-         WHERE id = $6 RETURNING *`,
+         SET name = $1, festival_id = $2, nbtable = $3, surface = $4, tariffzoneid = $5, description = $6
+         WHERE id = $7 RETURNING *`,
     [
       mapZone.name,
       mapZone.festivalId,
       mapZone.nbtable,
-      mapZone.surface ?? 0,
+      mapZone.surface,
       mapZone.tariffzoneid,
       mapZone.description,
       mapZone.id,

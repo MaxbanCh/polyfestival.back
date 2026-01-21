@@ -30,7 +30,6 @@ async function addFestival(festival: Omit<Festival, 'id'>): Promise<Festival> {
       festival.description ?? '',
       festival.startDate,
       festival.endDate,
-      
     ],
   );
   const newFestival: Festival = res.rows[0];
@@ -41,11 +40,10 @@ async function addFestival(festival: Omit<Festival, 'id'>): Promise<Festival> {
 async function updateFestival(festival: Festival): Promise<Festival | null> {
   const res = await pool.query(
     `UPDATE festivals
-         SET name = $1, nbtable = $2, "creationDate" = $3, description = $4, "startDate" = $5, "endDate" = $6
-         WHERE id = $7 RETURNING *`,
+         SET name = $1, description = $2, "startDate" = $3, "endDate" = $4
+         WHERE id = $5 RETURNING *`,
     [
       festival.name,
-      festival.creationDate,
       festival.description,
       festival.startDate,
       festival.endDate,
