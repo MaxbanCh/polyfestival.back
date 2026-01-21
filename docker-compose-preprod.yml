@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     environment:
-      - DATABASE_URL=postgres://polyfestival:polyfestival@db:5433/polyfestival
+      - DATABASE_URL=postgres://polyfestival:polyfestival@db:5432/polyfestival
     ports:
       - "3002:3002"
     depends_on:
