@@ -51,6 +51,8 @@ actorRouter.post('/', async (req, res) => {
       email: body.email ?? null,
       phone: body.phone ?? null,
       description: body.description ?? null,
+      reservantType: body.reservantType ?? null,
+      billingAddress: body.billingAddress ?? null,
     };
     const retActor = await addActor(newActor);
     res.status(201).json(toFrontActor(retActor));
@@ -72,6 +74,8 @@ actorRouter.post('/:id', async (req, res) => {
     email: req.body.email ?? null,
     phone: req.body.phone ?? null,
     description: req.body.description ?? null,
+    reservantType: req.body.reservantType ?? null,
+    billingAddress: req.body.billingAddress ?? null,
   });
   if (updatedActor) {
     res.json(toFrontActor(updatedActor));

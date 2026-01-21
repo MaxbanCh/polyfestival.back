@@ -62,7 +62,7 @@ async function getActor(id: number): Promise<Actor | null> {
   }
   const res = await pool.query('SELECT * FROM actors WHERE id = $1', [id]);
   if (res.rows.length === 0) {
-    return null;
+    throw(new Error(`Actor with id ${id} not found`));
   }
   const row = res.rows[0];
   return {
@@ -72,6 +72,8 @@ async function getActor(id: number): Promise<Actor | null> {
     email: row.email ?? null,
     phone: row.phone ?? null,
     description: row.description ?? null,
+    reservantType: row.reservant_type ?? null,
+    billingAddress: row.billingaddress ?? null,
   };
 }
 
@@ -84,20 +86,24 @@ async function listActor(): Promise<Actor[]> {
     email: row.email ?? null,
     phone: row.phone ?? null,
     description: row.description ?? null,
+    reservantType: row.reservant_type ?? null,
+    billingAddress: row.billingaddress ?? null,
   }));
 }
 
 async function addActor(actor: Omit<Actor, 'id'>): Promise<Actor> {
   console.log('Adding actor:', actor);
   const res = await pool.query(
-    `INSERT INTO actors (name, actor_type, email, phone, description)
-     VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+    `INSERT INTO actors (name, actor_type, email, phone, description, reservant_type, billingaddress)
+     VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
     [
       actor.name,
       serializeTypes(actor.actorType),
       actor.email ?? null,
       actor.phone ?? null,
       actor.description ?? null,
+      actor.reservantType ?? null,
+      actor.billingAddress ?? null,
     ],
   );
   const row = res.rows[0];
@@ -108,13 +114,15 @@ async function addActor(actor: Omit<Actor, 'id'>): Promise<Actor> {
     email: row.email ?? null,
     phone: row.phone ?? null,
     description: row.description ?? null,
+    reservantType: row.reservant_type ?? null,
+    billingAddress: row.billingaddress ?? null,
   };
 }
 
 async function updateActor(actor: Actor): Promise<Actor | null> {
   const res = await pool.query(
     `UPDATE actors
-     SET name = $1, actor_type = $2, email = $3, phone = $4, description = $5
+     SET name = $1, actor_type = $2, email = $3, phone = $4, description = $5, reservant_type = $6, billingaddress = $7
      WHERE id = $6 RETURNING *`,
     [
       actor.name,
@@ -122,6 +130,8 @@ async function updateActor(actor: Actor): Promise<Actor | null> {
       actor.email ?? null,
       actor.phone ?? null,
       actor.description ?? null,
+      actor.reservantType ?? null,
+      actor.billingAddress ?? null,
       actor.id,
     ],
   );

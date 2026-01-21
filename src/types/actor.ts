@@ -5,6 +5,8 @@ export interface Actor {
     email?: string | null;
     phone?: string | null;
     description?: string | null;
+    reservantType?: ActorType | null;
+    billingAddress?: string | null;
 }
 
 export enum ActorType {
