@@ -14,7 +14,9 @@ CREATE TABLE IF NOT EXISTS actors (
     actor_type TEXT NOT NULL,
     email TEXT,
     phone TEXT,
-    description TEXT
+    description TEXT,
+    reservant_type TEXT CHECK (reservant_type IN ('EDITOR', 'FESTIVAL', 'ORGANIZATION', 'ANIMATOR', 'NONE')),
+    billingaddress TEXT
 );
 
 -- Actor contacts table

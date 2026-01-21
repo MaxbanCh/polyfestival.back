@@ -1,6 +1,6 @@
 import { type Game } from '../types/game';
 import pool from '../database/database';
-import { getActor } from '../actor/actor';
+import { displayActor, getActor } from '../actor/actor';
 import { ActorType } from '../types/actor';
 
 function displayGame(game: Game): string {
@@ -56,20 +56,20 @@ async function listGame(): Promise<Game[]> {
 
 async function addGame(game: Omit<Game, 'id'>): Promise<Game> {
   const actor = await getActor(game.editorId);
-  if (!actor || !actor.actorType.includes(ActorType.EDITOR)) {
+  displayActor(actor!);
+  if (!actor || !actor.actorType.includes('PUBLISHER')) {
     throw new Error(
       `Editor with id ${game.editorId} does not exist or is not an editor`,
     );
   }
 
   const res = await pool.query(
-    `INSERT INTO games (name, author, type, agemin, agemax, nbminplayers, nbmaxplayers, editor_id, description, notice, prototype, duree, imageurl, videorulesurl)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`,
+    `INSERT INTO games (name, author, type, agemin, nbminplayers, nbmaxplayers, editor_id, description, notice, prototype, duree, imageurl, videorulesurl)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *`,
     [
       game.name,
       game.author,
       game.type,
-      game.ageMin,
       game.ageMin,
       game.nbMinPlayers,
       game.nbMaxPlayers,
@@ -111,13 +111,12 @@ async function updateGame(game: Game): Promise<Game | null> {
 
   const res = await pool.query(
     `UPDATE games
-         SET name = $1, author = $2, type = $3, agemin = $4, agemax = $5, nbminplayers = $6, nbmaxplayers = $7, editor_id = $8, description = $9, notice = $10, prototype = $11, duree = $12, imageurl = $13, videorulesurl = $14
-         WHERE id = $15 RETURNING *`,
+         SET name = $1, author = $2, type = $3, agemin = $4, nbminplayers = $5, nbmaxplayers = $6, editor_id = $7, description = $8, notice = $9, prototype = $10, duree = $11, imageurl = $12, videorulesurl = $13
+         WHERE id = $14 RETURNING *`,
     [
       game.name,
       game.author,
       game.type,
-      game.ageMin,
       game.ageMin,
       game.nbMinPlayers,
       game.nbMaxPlayers,

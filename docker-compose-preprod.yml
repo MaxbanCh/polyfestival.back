@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_USER: polyfestival
       POSTGRES_PASSWORD: polyfestival
-      POSTGRES_DB: polyfestivaldev
+      POSTGRES_DB: polyfestival
     volumes:
       - ./src/database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
       - db_data:/var/lib/postgresql/data
@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     environment:
-      - DATABASE_URL=postgres://polyfestival:polyfestival@db:5433/polyfestivaldev
+      - DATABASE_URL=postgres://polyfestival:polyfestival@db:5432/polyfestival
     ports:
       - "3002:3002"
     depends_on:
